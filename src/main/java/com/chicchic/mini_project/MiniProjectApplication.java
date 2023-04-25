@@ -10,4 +10,5 @@ public class MiniProjectApplication {
 		SpringApplication.run(MiniProjectApplication.class, args);
 	}
 // test 1
+// test 2
 }
