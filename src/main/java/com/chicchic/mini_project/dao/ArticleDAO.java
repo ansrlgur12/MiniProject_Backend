@@ -20,7 +20,7 @@ public class ArticleDAO {
         try{
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM T_MEMBER";
+            String sql = "SELECT * FROM 게시글";
             rs = stmt.executeQuery(sql);
             while(rs.next()) {
                 int anum = rs.getInt("게시글번호");
@@ -31,9 +31,9 @@ public class ArticleDAO {
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
-                vo.setUnum(unum);
                 vo.setTitle(title);
                 vo.setText(text);
+                vo.setUnum(unum);
                 vo.setDate(date);
                 list.add(vo);
             }
