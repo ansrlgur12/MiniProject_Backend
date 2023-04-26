@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chicchic.mini_project.common.Common.getConnection;
+
 public class ArticleDAO {
 
     private Connection conn = null;
@@ -15,12 +17,16 @@ public class ArticleDAO {
     private PreparedStatement pStmt = null;
 
 
-    public List<ArticleVO> article() {
+    public List<ArticleVO> article(int num) {
+        String sql = null;
         List<ArticleVO> list = new ArrayList<>();
         try{
-            conn = Common.getConnection();
+            conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM 게시글";
+
+            if (num == 0) sql = "SELECT * FROM 게시글";
+            else sql = "SELECT * FROM 게시글 WHERE 게시글번호 = " + num ;
+
             rs = stmt.executeQuery(sql);
             while(rs.next()) {
                 int anum = rs.getInt("게시글번호");
@@ -46,4 +52,5 @@ public class ArticleDAO {
         }
         return list;
     }
+
 }
