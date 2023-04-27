@@ -16,10 +16,20 @@ import java.util.List;
 public class ArticleController {
     // GET : 게시글
     @GetMapping("/article/{anum}")
-    public ResponseEntity<List<ArticleVO>> memberList(@PathVariable("anum") String anum) {
+    public ResponseEntity<List<ArticleVO>> memberList(@PathVariable("anum") int anum) {
+        System.out.println(anum);
         ArticleDAO dao = new ArticleDAO();
-        List<ArticleVO> list = dao.article();
+        List<ArticleVO> list = dao.article(anum);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/articles/{num}")
+    public ResponseEntity<List<ArticleVO>> write(@PathVariable("num") int num) {
+        System.out.println(num);
+        ArticleDAO dao = new ArticleDAO();
+        List<ArticleVO> list = dao.write(num);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
 
