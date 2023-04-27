@@ -22,4 +22,13 @@ public class ArticleController {
         List<ArticleVO> list = dao.article(anum);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/articles/{num}")
+    public ResponseEntity<List<ArticleVO>> write(@PathVariable("num") int num) {
+        System.out.println(num);
+        ArticleDAO dao = new ArticleDAO();
+        List<ArticleVO> list = dao.write(num);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
