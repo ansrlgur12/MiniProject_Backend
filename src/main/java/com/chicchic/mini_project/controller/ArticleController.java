@@ -22,3 +22,4 @@ public class ArticleController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
+
