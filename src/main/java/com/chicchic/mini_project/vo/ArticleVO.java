@@ -15,6 +15,9 @@ public class ArticleVO {
     private int unum;
     private String title;
     private String text;
+    private String pwd;
     private Date date;
     private String img;
+    private String id;
+
 }
