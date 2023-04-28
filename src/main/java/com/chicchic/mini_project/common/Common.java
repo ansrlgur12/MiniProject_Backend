@@ -8,7 +8,10 @@ import java.sql.Statement;
 public class Common {
     // 오라클 설정 정보 (JDBC 연결)
     final static String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+<<<<<<< HEAD
+=======
 
+>>>>>>> fb7e4bb6b13d343cf38d393fd5f40fcd8928bbd6
     final static String ORACLE_ID = "chicchic";
     final static String ORACLE_PW = "1234";
     final static String ORACLE_DRV = "oracle.jdbc.driver.OracleDriver";
