@@ -20,7 +20,7 @@ public class ArticleDAO {
     public List<ArticleVO> articleList(int num) {
         String sql = null;
         List<ArticleVO> list = new ArrayList<>();
-        try{
+        try {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
@@ -31,7 +31,7 @@ public class ArticleDAO {
                     "WHERE a.게시판번호 = " + num;
 
             rs = stmt.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 int anum = rs.getInt("게시글번호");
                 int bnum = rs.getInt("게시판번호");
                 String title = rs.getString("제목");
@@ -54,7 +54,7 @@ public class ArticleDAO {
             Common.close(stmt);
             Common.close(conn);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
@@ -63,7 +63,7 @@ public class ArticleDAO {
 
     public List<ArticleVO> article(int num) {
         List<ArticleVO> list = new ArrayList<>();
-        try{
+        try {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
@@ -73,7 +73,7 @@ public class ArticleDAO {
                     "WHERE a.게시글번호 = " + num;
 
             rs = stmt.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 int anum = rs.getInt("게시글번호");
                 int bnum = rs.getInt("게시판번호");
                 String title = rs.getString("제목");
@@ -96,20 +96,20 @@ public class ArticleDAO {
             Common.close(stmt);
             Common.close(conn);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
 
-    public boolean memberRegister(int bnum, String title, String text, String pwd) {
+    public boolean newArticle(int bnum, String title, String text, String pwd) {
         int result = 0;
         String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, 1, ?, ?, SYSDATE, 'image', 'tag', ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setInt(1,bnum);
+            pStmt.setInt(1, bnum);
             pStmt.setString(2, title);
             pStmt.setString(3, text);
             pStmt.setString(4, pwd);
@@ -122,34 +122,41 @@ public class ArticleDAO {
         Common.close(pStmt);
         Common.close(conn);
 
-        if(result == 1) return true;
+        if (result == 1) return true;
         else return false;
     }
 
 
-    public List<ArticleVO> delete(int num) {
-        List<ArticleVO> list = new ArrayList<>();
-        try{
-            conn = getConnection();
-            stmt = conn.createStatement(); // Statement 객체 얻기
-
-            String sql = "DELETE FROM 게시글 WHERE 게시글번호 = " + num;
-
-            rs = stmt.executeQuery(sql);
-
-            int anum = rs.getInt("게시글번호");
-
-            ArticleVO vo = new ArticleVO();
-            vo.setAnum(anum);
-            list.add(vo);
-
-            Common.close(rs);
-            Common.close(stmt);
-            Common.close(conn);
-
-        }catch(Exception e){
+    //    public List<ArticleVO> delete(int num) {
+//        List<ArticleVO> list = new ArrayList<>();
+//        String sql = "DELETE FROM 게시글 WHERE 게시글번호 = ?";
+//        try{
+//            conn = Common.getConnection();
+//            pStmt = conn.prepareStatement(sql);
+//            pStmt.setInt(1,num);
+//
+//            ArticleVO vo = new ArticleVO();
+//            vo.setAnum(anum);
+//            list.add(vo);
+//
+//            Common.close(rs);
+//            Common.close(stmt);
+//            Common.close(conn);
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
+    public void delete(int anum) {
+        String sql = "DELETE FROM 게시글 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
     }
 }
