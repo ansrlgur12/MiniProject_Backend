@@ -29,24 +29,32 @@ public class ArticleController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping("/new")
+    @PostMapping("/newArticle")
     public ResponseEntity<Boolean> newArticle(@RequestBody Map<String, String> regData) {
         int getBnum = Integer.parseInt(regData.get("bnum"));
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.memberRegister(getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.newArticle(getBnum, getTitle, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    @GetMapping("/articleDelete/{deleteNum}")
-    public ResponseEntity<List<ArticleVO>> delete(@PathVariable("deleteNum") int deleteNum) {
-        System.out.println(deleteNum);
+//    @GetMapping("/articleDelete/{deleteNum}")
+//    public ResponseEntity<List<ArticleVO>> delete(@PathVariable("deleteNum") int deleteNum) {
+//        System.out.println(deleteNum);
+//        ArticleDAO dao = new ArticleDAO();
+//        List<ArticleVO> list = dao.delete(deleteNum);
+//        System.out.println("삭제완료");
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
+
+    @GetMapping("/articleDelete/{anum}") // 글삭제
+    public ResponseEntity<List<ArticleVO>> deleteArticle(@PathVariable("anum") int anum) {
         ArticleDAO dao = new ArticleDAO();
-        List<ArticleVO> list = dao.delete(deleteNum);
-        System.out.println("삭제완료");
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        dao.delete(anum);
+        System.out.println(anum);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
