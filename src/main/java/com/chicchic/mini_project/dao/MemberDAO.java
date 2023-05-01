@@ -51,7 +51,7 @@ public class MemberDAO {
         try{
             conn = Common.getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
-            String sql = "SELECT * FROM T_MEMBER";
+            String sql = "SELECT * FROM 회원";
             rs = stmt.executeQuery(sql);
             while(rs.next()) {
                 String id = rs.getString("아이디");
@@ -99,7 +99,7 @@ public class MemberDAO {
 
     public boolean memberRegister(String id, String pwd, String name, String email) {
         int result = 0;
-        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일, 회원등급) VALUES(2, ?, ?, ?, ?, '기본')";
+        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일, 회원등급) VALUES(회원번호.NEXTVAL, ?, ?, ?, ?, '기본')";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
