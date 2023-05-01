@@ -48,7 +48,7 @@ public class brandInsertDAO {
                     int r = pStmt.executeUpdate();
                     System.out.println("SQL 실행: " + r + "개의 데이터 삽입");
                 }
-                conn.commit();
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

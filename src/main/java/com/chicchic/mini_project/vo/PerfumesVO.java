@@ -17,12 +17,12 @@ public class PerfumesVO {
     private PerfumeDataVO fields;
     private Long perfume_number;
     private String name;
-    private String launch_date;
+    private Date launch_date;
     private String thumbnail;
-    private String gender;
+    private Integer gender;
     private String availability;
-    private String brand;
-    private String price;
+    private Integer brand;
+    private Double price;
     private List<String> top_notes;
     private List<String> heart_notes;
     private List<String> base_notes;
