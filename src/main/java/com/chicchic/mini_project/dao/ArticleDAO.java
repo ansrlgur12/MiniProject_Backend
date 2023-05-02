@@ -160,4 +160,28 @@ public class ArticleDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean update(int bnum, String title, String text, String pwd) {
+        int result = 0;
+        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, 1, ?, ?, ?, SYSDATE, 'image', 'tag')";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, bnum);
+            pStmt.setString(2, title);
+            pStmt.setString(3, pwd);
+            pStmt.setString(4, text);
+
+            result = pStmt.executeUpdate();
+            System.out.println("게시글 등록 DB 결과 확인 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
 }
