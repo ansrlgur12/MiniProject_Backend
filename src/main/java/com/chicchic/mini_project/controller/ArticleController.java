@@ -49,15 +49,6 @@ public class ArticleController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-//    @GetMapping("/articleDelete/{deleteNum}")
-//    public ResponseEntity<List<ArticleVO>> delete(@PathVariable("deleteNum") int deleteNum) {
-//        System.out.println(deleteNum);
-//        ArticleDAO dao = new ArticleDAO();
-//        List<ArticleVO> list = dao.delete(deleteNum);
-//        System.out.println("삭제완료");
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-
     @GetMapping("/articleDelete/{anum}") // 글삭제
     public ResponseEntity<List<ArticleVO>> deleteArticle(@PathVariable("anum") int anum) {
         ArticleDAO dao = new ArticleDAO();
@@ -66,14 +57,15 @@ public class ArticleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/newArticle") // 글 수정
+    @PostMapping("/update") // 글 수정
     public ResponseEntity<Boolean> updateArticle(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
         int getBnum = Integer.parseInt(regData.get("bnum"));
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.update(getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 }
