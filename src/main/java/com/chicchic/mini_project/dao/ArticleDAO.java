@@ -161,9 +161,9 @@ public class ArticleDAO {
         }
     }
 
-    public boolean update(int bnum, String title, String text, String pwd) {
+    public boolean update(int anum, int bnum, String title, String text, String pwd) {
         int result = 0;
-        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, 1, ?, ?, ?, SYSDATE, 'image', 'tag')";
+        String sql = "UPDATE 게시글 SET 게시판번호=?, 제목=?, 비밀번호=?, 내용=? WHERE 게시글번호=?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -171,9 +171,10 @@ public class ArticleDAO {
             pStmt.setString(2, title);
             pStmt.setString(3, pwd);
             pStmt.setString(4, text);
+            pStmt.setInt(5, anum);
 
             result = pStmt.executeUpdate();
-            System.out.println("게시글 등록 DB 결과 확인 : " + result);
+            System.out.println("게시글 수정 DB 결과 확인 : " + result);
 
         } catch (Exception e) {
             e.printStackTrace();
