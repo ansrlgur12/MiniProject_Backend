@@ -28,7 +28,8 @@ public class ArticleDAO {
             else sql = "SELECT a.*, m.아이디 " +
                     "FROM 게시글 a " +
                     "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
-                    "WHERE a.게시판번호 = " + num;
+                    "WHERE a.게시판번호 = " + num +
+                    "ORDER BY a.게시글번호 DESC";
 
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
