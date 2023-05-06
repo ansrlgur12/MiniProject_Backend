@@ -20,4 +20,9 @@ public class ArticleVO {
     private String img;
     private String id;
 
+    //댓글부분
+    private int commentNum;
+    private String commentText;
+    private String commentPwd;
+
 }
