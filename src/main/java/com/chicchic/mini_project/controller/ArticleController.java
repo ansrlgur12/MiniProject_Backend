@@ -68,5 +68,49 @@ public class ArticleController {
         boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
+
+    @PostMapping("/comment") // 댓글작성
+    public ResponseEntity<Boolean> newComment(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+        String getText = regData.get("text");
+        String getPwd = regData.get("pwd");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.newComment(getAnum, getText, getPwd);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+    @GetMapping("/showComment/{anum}") // 댓글 목록
+    public ResponseEntity<List<ArticleVO>> commentList(@PathVariable("anum") int anum) {
+        System.out.println(anum + "댓글");
+        ArticleDAO dao = new ArticleDAO();
+        List<ArticleVO> list = dao.commentList(anum);
+        System.out.println(list);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/commentDelete/{commentNum}") // 댓글삭제
+    public ResponseEntity<List<ArticleVO>> deleteComment(@PathVariable("commentNum") int commentNum) {
+        ArticleDAO dao = new ArticleDAO();
+        dao.deleteComment(commentNum);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/viewComment/{commentNum}") // 댓글 수정 전 내용 가져오기
+    public ResponseEntity<List<ArticleVO>> viewComment(@PathVariable("commentNum") int commentNum) {
+        System.out.println(commentNum + "댓글수정");
+        ArticleDAO dao = new ArticleDAO();
+        List<ArticleVO> list = dao.viewComment(commentNum);
+        System.out.println(list);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/updateComment") // 댓글수정
+    public ResponseEntity<Boolean> updateComment(@RequestBody Map<String, String> regData) {
+        int getCommentNum = Integer.parseInt(regData.get("commentNum"));
+        String getText = regData.get("text");
+        String getPwd = regData.get("pwd");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.updateComment(getCommentNum, getText, getPwd);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
 }
 

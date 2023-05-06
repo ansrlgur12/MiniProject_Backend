@@ -186,4 +186,133 @@ public class ArticleDAO {
         if (result == 1) return true;
         else return false;
     }
+    public boolean newComment(int anum, String text, String pwd) {
+        int result = 0;
+        String sql = "INSERT INTO 댓글 VALUES(댓글번호.NEXTVAL, ?, 1, ?, ?, SYSDATE)";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.setString(2, text);
+            pStmt.setString(3, pwd);
+
+            result = pStmt.executeUpdate();
+            System.out.println("댓글 등록 DB 결과 확인 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public List<ArticleVO> commentList(int num) {
+        List<ArticleVO> list = new ArrayList<>();
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement(); // Statement 객체 얻기
+
+            String sql = "SELECT a.*, m.아이디 " +
+                    "FROM 댓글 a " +
+                    "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+                    "WHERE a.게시글번호 = " + num +
+                    "ORDER BY a.댓글번호";
+
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int commentNum = rs.getInt("댓글번호");
+                int anum = rs.getInt("게시글번호");
+                int unum = rs.getInt("회원번호");
+                String commentText = rs.getString("내용");
+                String commentPwd = rs.getString("비밀번호");
+                Date date = rs.getDate("작성일");
+                String id = rs.getString("아이디");
+
+                ArticleVO vo = new ArticleVO();
+                vo.setCommentNum(commentNum);
+                vo.setAnum(anum);
+                vo.setCommentText(commentText);
+                vo.setCommentPwd(commentPwd);
+                vo.setUnum(unum);
+                vo.setDate(date);
+                vo.setId(id);
+                list.add(vo);
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public void deleteComment(int commentNum) {
+        String sql = "DELETE FROM 댓글 WHERE 댓글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, commentNum);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<ArticleVO> viewComment(int num) {
+        List<ArticleVO> list = new ArrayList<>();
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement(); // Statement 객체 얻기
+
+            String sql = "SELECT * " +
+                    "FROM 댓글" +
+                    " WHERE 댓글번호 = " + num;
+
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int commentNum = rs.getInt("댓글번호");
+                String commentText = rs.getString("내용");
+
+                ArticleVO vo = new ArticleVO();
+                vo.setCommentNum(commentNum);
+                vo.setCommentText(commentText);
+                list.add(vo);
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean updateComment(int commentNum, String text, String pwd) {
+        int result = 0;
+        String sql = "UPDATE 댓글 SET 내용=?, 비밀번호=? WHERE 댓글번호=?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, text);
+            pStmt.setString(2, pwd);
+            pStmt.setInt(3, commentNum);
+
+            result = pStmt.executeUpdate();
+            System.out.println("댓글 수정 DB 결과 확인 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
 }
