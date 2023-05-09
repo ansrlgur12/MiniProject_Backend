@@ -25,4 +25,7 @@ public class ArticleVO {
     private String commentText;
     private String commentPwd;
 
+    //조회수
+    private int view;
+
 }
