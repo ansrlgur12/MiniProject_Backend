@@ -17,7 +17,64 @@ public class ArticleDAO {
     private PreparedStatement pStmt = null;
 
 
-    public List<ArticleVO> articleList(int num) {
+    public List<ArticleVO> articleList(int num, int view) {
+        String sql = null;
+        List<ArticleVO> list = new ArrayList<>();
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement(); // Statement 객체 얻기
+
+            if (view == 1) {
+                sql = "SELECT a.*, m.아이디 " +
+                        "FROM 게시글 a " +
+                        "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+                        "WHERE a.게시판번호 = " + num +
+                        "ORDER BY a.조회수 DESC";
+            }
+            else if (view == 2) {
+                sql = "SELECT a.*, m.아이디 " +
+                        "FROM 게시글 a " +
+                        "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+                        "WHERE a.게시판번호 = " + num +
+                        "ORDER BY a.게시글번호";
+
+            } else sql = "SELECT a.*, m.아이디 " +
+                    "FROM 게시글 a " +
+                    "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+                    "WHERE a.게시판번호 = " + num +
+                    "ORDER BY a.게시글번호 DESC";
+
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int anum = rs.getInt("게시글번호");
+                int bnum = rs.getInt("게시판번호");
+                String title = rs.getString("제목");
+                String text = rs.getString("내용");
+                int unum = rs.getInt("회원번호");
+                Date date = rs.getDate("작성일");
+                String id = rs.getString("아이디");
+
+                ArticleVO vo = new ArticleVO();
+                vo.setAnum(anum);
+                vo.setBnum(bnum);
+                vo.setTitle(title);
+                vo.setText(text);
+                vo.setUnum(unum);
+                vo.setDate(date);
+                vo.setId(id);
+                list.add(vo);
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<ArticleVO> smallArticleList(int num) {
         String sql = null;
         List<ArticleVO> list = new ArrayList<>();
         try {
@@ -82,6 +139,7 @@ public class ArticleDAO {
                 int unum = rs.getInt("회원번호");
                 Date date = rs.getDate("작성일");
                 String id = rs.getString("아이디");
+                int view = rs.getInt("조회수");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
@@ -91,6 +149,7 @@ public class ArticleDAO {
                 vo.setUnum(unum);
                 vo.setDate(date);
                 vo.setId(id);
+                vo.setView(view);
                 list.add(vo);
             }
             Common.close(rs);
@@ -104,16 +163,19 @@ public class ArticleDAO {
     }
 
 
-    public boolean newArticle(int bnum, String title, String text, String pwd) {
+    public boolean newArticle(String id, int bnum, String title, String text, String pwd) {
         int result = 0;
-        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, 1, ?, ?, ?, SYSDATE, 'image', 'tag')";
+        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, (SELECT 회원번호 \" +\n" +
+                "                \"        FROM 회원 \" +\n" +
+                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, 'image', 'tag', 1)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setInt(1, bnum);
-            pStmt.setString(2, title);
-            pStmt.setString(3, pwd);
-            pStmt.setString(4, text);
+            pStmt.setString(2, id);
+            pStmt.setString(3, title);
+            pStmt.setString(4, pwd);
+            pStmt.setString(5, text);
 
             result = pStmt.executeUpdate();
             System.out.println("게시글 등록 DB 결과 확인 : " + result);
@@ -186,15 +248,19 @@ public class ArticleDAO {
         if (result == 1) return true;
         else return false;
     }
-    public boolean newComment(int anum, String text, String pwd) {
+    public boolean newComment(int anum, String id, String text, String pwd) {
         int result = 0;
-        String sql = "INSERT INTO 댓글 VALUES(댓글번호.NEXTVAL, ?, 1, ?, ?, SYSDATE)";
+        String sql = "INSERT INTO 댓글 VALUES(댓글번호.NEXTVAL, ?, " +
+                "(SELECT 회원번호 " +
+                "FROM 회원 " +
+                "WHERE 아이디 = ? ), ?, ?, SYSDATE)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setInt(1, anum);
-            pStmt.setString(2, text);
-            pStmt.setString(3, pwd);
+            pStmt.setString(2, id);
+            pStmt.setString(3, text);
+            pStmt.setString(4, pwd);
 
             result = pStmt.executeUpdate();
             System.out.println("댓글 등록 DB 결과 확인 : " + result);
@@ -315,4 +381,66 @@ public class ArticleDAO {
         if (result == 1) return true;
         else return false;
     }
+
+    public boolean view(int view) {
+        int result = 0;
+        String sql = "UPDATE 게시글 SET 조회수 = 조회수 + 1 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, view);
+
+            result = pStmt.executeUpdate();
+            System.out.println("조회수 증가 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
 }
+
+//    public List<ArticleVO> product(int num) {
+//
+//        List<ArticleVO> list = new ArrayList<>();
+//        try {
+//            conn = getConnection();
+//            stmt = conn.createStatement(); // Statement 객체 얻기
+//
+//             String sql = "SELECT * " +
+//                        "FROM 상품정보 " +
+//                        "WHERE = " + num;
+//
+//            rs = stmt.executeQuery(sql);
+//            while (rs.next()) {
+//                int anum = rs.getInt("게시글번호");
+//                int bnum = rs.getInt("게시판번호");
+//                String title = rs.getString("제목");
+//                String text = rs.getString("내용");
+//                int unum = rs.getInt("회원번호");
+//                Date date = rs.getDate("작성일");
+//                String id = rs.getString("아이디");
+//
+//                ArticleVO vo = new ArticleVO();
+//                vo.setAnum(anum);
+//                vo.setBnum(bnum);
+//                vo.setTitle(title);
+//                vo.setText(text);
+//                vo.setUnum(unum);
+//                vo.setDate(date);
+//                vo.setId(id);
+//                list.add(vo);
+//            }
+//            Common.close(rs);
+//            Common.close(stmt);
+//            Common.close(conn);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }

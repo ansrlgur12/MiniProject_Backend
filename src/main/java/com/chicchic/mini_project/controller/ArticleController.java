@@ -13,11 +13,11 @@ import java.util.Map;
 @RestController
 public class ArticleController {
     // GET : 게시글
-    @GetMapping("/article/{anum}")
-    public ResponseEntity<List<ArticleVO>> articleList(@PathVariable("anum") int anum) {
+    @GetMapping("/article/{anum}/{view}")
+    public ResponseEntity<List<ArticleVO>> articleList(@PathVariable("anum") int anum, @PathVariable("view") int view) {
         System.out.println(anum);
         ArticleDAO dao = new ArticleDAO();
-        List<ArticleVO> list = dao.articleList(anum);
+        List<ArticleVO> list = dao.articleList(anum, view);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -25,7 +25,7 @@ public class ArticleController {
     public ResponseEntity<List<ArticleVO>> smallArticleList(@PathVariable("anum") int anum) {
         System.out.println(anum + "카테고리");
         ArticleDAO dao = new ArticleDAO();
-        List<ArticleVO> list = dao.articleList(anum);
+        List<ArticleVO> list = dao.smallArticleList(anum);
         System.out.println(list);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -40,12 +40,13 @@ public class ArticleController {
 
     @PostMapping("/newArticle") // 글작성
     public ResponseEntity<Boolean> newArticle(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
         int getBnum = Integer.parseInt(regData.get("bnum"));
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.newArticle(getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.newArticle(getId, getBnum, getTitle, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
@@ -72,10 +73,11 @@ public class ArticleController {
     @PostMapping("/comment") // 댓글작성
     public ResponseEntity<Boolean> newComment(@RequestBody Map<String, String> regData) {
         int getAnum = Integer.parseInt(regData.get("anum"));
+        String getId = regData.get("id");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.newComment(getAnum, getText, getPwd);
+        boolean isTrue = dao.newComment(getAnum, getId, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
     @GetMapping("/showComment/{anum}") // 댓글 목록
@@ -112,5 +114,20 @@ public class ArticleController {
         boolean isTrue = dao.updateComment(getCommentNum, getText, getPwd);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
-}
 
+    @PostMapping("/viewCount")
+    public ResponseEntity<Boolean> view(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.view(getAnum);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+}
+//
+//    @GetMapping("/product/{num}")
+//    public ResponseEntity<List<ArticleVO>> articleList(@PathVariable("num") int num) {
+//        ArticleDAO dao = new ArticleDAO();
+//        List<ArticleVO> list = dao.product(num);
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
