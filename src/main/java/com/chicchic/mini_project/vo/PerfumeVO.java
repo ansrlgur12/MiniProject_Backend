@@ -30,4 +30,17 @@ public class PerfumeVO {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+    private Long perfume_number;
+    private String name;
+    private Date launch_date;
+    private String thumbnail;
+    private Integer gender;
+    private String availability;
+    private Integer brand;
+    private Double price;
+    private List<String> top_notes;
+    private List<String> heart_notes;
+    private List<String> base_notes;
+    private List<String> seasons;
+    private List<String> categories;
 }
