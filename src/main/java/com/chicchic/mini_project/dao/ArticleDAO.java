@@ -167,7 +167,7 @@ public class ArticleDAO {
         int result = 0;
         String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, (SELECT 회원번호 \" +\n" +
                 "                \"        FROM 회원 \" +\n" +
-                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, 'image', 'tag', 1)";
+                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, 'image', 'tag', 1, 0)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -401,6 +401,86 @@ public class ArticleDAO {
 
         if (result == 1) return true;
         else return false;
+    }
+
+    public boolean like(int anum, String id) {
+        int result = 0;
+        String sql = "INSERT INTO 좋아요 VALUES(?, " +
+                "(SELECT 회원번호 " +
+                "FROM 회원 " +
+                "WHERE 아이디 = ? )) ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.setString(2, id);
+
+            result = pStmt.executeUpdate();
+            System.out.println("조회수 증가 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public boolean dislike(int anum, String id) {
+        int result = 0;
+        String sql = " DELETE FROM 좋아요 WHERE 게시글번호 = ? AND 회원번호 = (SELECT 회원번호 FROM 회원 WHERE 아이디 = ? )  ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.setString(2, id);
+
+            result = pStmt.executeUpdate();
+            System.out.println("좋아요 취소 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public void deleteLike(int anum) {
+        String sql = "DELETE FROM 좋아요 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.executeUpdate();
+            System.out.println("좋아요 삭제 ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int countLike(String id, int anum) {
+        String sql = "SELECT COUNT(*) FROM 좋아요 WHERE 회원번호 = (SELECT 회원번호 FROM 회원 WHERE 아이디 = ? ) AND 게시글번호 = ?";
+        int count = 0;
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.setInt(2, anum);
+            try (ResultSet rs = pStmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+            System.out.println("카운트 : " + count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }
 

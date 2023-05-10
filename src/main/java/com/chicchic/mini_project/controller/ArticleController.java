@@ -123,6 +123,40 @@ public class ArticleController {
         boolean isTrue = dao.view(getAnum);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
+
+    @PostMapping("/newLike")
+    public ResponseEntity<Boolean> like(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+        String getId = regData.get("id");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.like(getAnum, getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @PostMapping("/disLike")
+    public ResponseEntity<Boolean> dislike(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+        String getId = regData.get("id");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.dislike(getAnum, getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/deleteLike/{anum}") // 댓글삭제
+    public ResponseEntity<List<ArticleVO>> deleteLike(@PathVariable("anum") int anum) {
+        ArticleDAO dao = new ArticleDAO();
+        dao.deleteLike(anum);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/countLike/{anum}/{id}")
+    public ResponseEntity<Integer> countLike(@PathVariable("id") String id, @PathVariable("anum") int anum) {
+        ArticleDAO dao = new ArticleDAO();
+        int count = dao.countLike(id, anum);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
 }
 //
 //    @GetMapping("/product/{num}")
