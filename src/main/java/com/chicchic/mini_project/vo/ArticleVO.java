@@ -28,4 +28,7 @@ public class ArticleVO {
     //조회수
     private int view;
 
+    //좋아요수
+    private int like;
+
 }
