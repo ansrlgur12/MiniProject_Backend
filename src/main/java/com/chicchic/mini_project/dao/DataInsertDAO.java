@@ -46,7 +46,7 @@ public class DataInsertDAO {
                 pStmt.setDate(2, perfume.getFields().getLaunch_date());
                 pStmt.setString(3, perfume.getFields().getThumbnail());
                 pStmt.setInt(4, perfume.getFields().getGender());
-                pStmt.setString(5, String.join(",", perfume.getFields().getTop_notes()));
+                pStmt.setString(5, String.join(",",perfume.getFields().getTop_notes()));
                 pStmt.setString(6, String.join(",", perfume.getFields().getHeart_notes()));
                 pStmt.setString(7, String.join(",", perfume.getFields().getBase_notes()));
                 pStmt.setString(8, String.join(",", perfume.getFields().getSeasons()));
