@@ -1,5 +1,7 @@
 package com.chicchic.mini_project.vo;
 
+import java.util.List;
+
 public class PerfumeVO {
     private int perfumeNumber;
     private String name;
@@ -31,9 +33,9 @@ public class PerfumeVO {
         this.thumbnail = thumbnail;
     }
     private Long perfume_number;
-    private String name;
-    private Date launch_date;
-    private String thumbnail;
+//    private String name;
+//    private Date launch_date;
+//    private String thumbnail;
     private Integer gender;
     private String availability;
     private Integer brand;
