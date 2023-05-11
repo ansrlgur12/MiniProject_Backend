@@ -20,7 +20,7 @@ public class ImageTestDAO {
     private PreparedStatement pStmt = null;
     private final String TABLE_NAME = "perfumes";
 
-    public PerfumeVO getPerfumesByConditions(Integer[] selected) {
+    public PerfumesVO getPerfumesByConditions(Integer[] selected) {
         StringJoiner whereClause = new StringJoiner(" AND ", " WHERE ", "");
 
 
@@ -97,8 +97,8 @@ public class ImageTestDAO {
         }
 
 
-        List<PerfumeVO> perfumes = new ArrayList<>();
-        PerfumeVO randomResult = null;
+        List<PerfumesVO> perfumes = new ArrayList<>();
+        PerfumesVO randomResult = null;
         try {
             conn = Common.getConnection();
             String sql = "SELECT * FROM " + TABLE_NAME + whereClause;
@@ -106,16 +106,16 @@ public class ImageTestDAO {
             pStmt = conn.prepareStatement(sql);
             rs = pStmt.executeQuery();
 
-            List<PerfumeVO> perfumesList = new ArrayList<>();
+            List<PerfumesVO> perfumesList = new ArrayList<>();
             while (rs.next()) {
-                PerfumeVO perfumeVO = new PerfumeVO();
-                perfumeVO.setPerfume_number(rs.getLong("perfume_Number"));
-                perfumeVO.setName(rs.getString("name"));
-                perfumeVO.setThumbnail(rs.getString("thumbnail"));
-                perfumeVO.setBrand(rs.getInt("brand"));
+                PerfumesVO perfumesVO = new PerfumesVO();
+                perfumesVO.setPerfume_number(rs.getLong("perfume_Number"));
+                perfumesVO.setName(rs.getString("name"));
+                perfumesVO.setThumbnail(rs.getString("thumbnail"));
+                perfumesVO.setBrand(rs.getInt("brand"));
 
 
-                perfumesList.add(perfumeVO);
+                perfumesList.add(perfumesVO);
 
             }
 
