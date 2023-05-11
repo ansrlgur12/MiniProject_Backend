@@ -1,14 +1,16 @@
 package com.chicchic.mini_project.dao;
 
 import com.chicchic.mini_project.common.Common;
-
-import com.chicchic.mini_project.vo.PerfumeVO;
 import com.chicchic.mini_project.vo.PerfumesVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.StringJoiner;
 
 
 public class ImageTestDAO {
@@ -20,7 +22,7 @@ public class ImageTestDAO {
     private PreparedStatement pStmt = null;
     private final String TABLE_NAME = "perfumes";
 
-    public PerfumeVO getPerfumesByConditions(Integer[] selected) {
+    public PerfumesVO getPerfumesByConditions(Integer[] selected) {
         StringJoiner whereClause = new StringJoiner(" AND ", " WHERE ", "");
 
 
@@ -97,8 +99,8 @@ public class ImageTestDAO {
         }
 
 
-        List<PerfumeVO> perfumes = new ArrayList<>();
-        PerfumeVO randomResult = null;
+        List<PerfumesVO> perfumes = new ArrayList<>();
+        PerfumesVO randomResult = null;
         try {
             conn = Common.getConnection();
             String sql = "SELECT * FROM " + TABLE_NAME + whereClause;
@@ -106,9 +108,9 @@ public class ImageTestDAO {
             pStmt = conn.prepareStatement(sql);
             rs = pStmt.executeQuery();
 
-            List<PerfumeVO> perfumesList = new ArrayList<>();
+            List<PerfumesVO> perfumesList = new ArrayList<>();
             while (rs.next()) {
-                PerfumeVO perfumeVO = new PerfumeVO();
+                PerfumesVO perfumeVO = new PerfumesVO();
                 perfumeVO.setPerfume_number(rs.getLong("perfume_Number"));
                 perfumeVO.setName(rs.getString("name"));
                 perfumeVO.setThumbnail(rs.getString("thumbnail"));
