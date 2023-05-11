@@ -1,5 +1,6 @@
 package com.chicchic.mini_project.vo;
 
+
 import java.sql.Date;
 import java.util.List;
 

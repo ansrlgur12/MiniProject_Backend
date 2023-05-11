@@ -1,14 +1,16 @@
 package com.chicchic.mini_project.dao;
 
 import com.chicchic.mini_project.common.Common;
-
-import com.chicchic.mini_project.vo.PerfumeVO;
 import com.chicchic.mini_project.vo.PerfumesVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.StringJoiner;
 
 
 public class ImageTestDAO {
@@ -108,13 +110,11 @@ public class ImageTestDAO {
 
             List<PerfumesVO> perfumesList = new ArrayList<>();
             while (rs.next()) {
-                PerfumesVO perfumesVO = new PerfumesVO();
-                perfumesVO.setPerfume_number(rs.getLong("perfume_Number"));
-                perfumesVO.setName(rs.getString("name"));
-                perfumesVO.setThumbnail(rs.getString("thumbnail"));
-                perfumesVO.setBrand(rs.getInt("brand"));
-
-
+                PerfumesVO perfumeVO = new PerfumesVO();
+                perfumeVO.setPerfume_number(rs.getLong("perfume_Number"));
+                perfumeVO.setName(rs.getString("name"));
+                perfumeVO.setThumbnail(rs.getString("thumbnail"));
+                perfumeVO.setBrand(rs.getInt("brand"));
                 perfumesList.add(perfumesVO);
 
             }
