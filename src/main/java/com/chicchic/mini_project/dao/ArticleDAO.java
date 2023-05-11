@@ -36,7 +36,7 @@ public class ArticleDAO {
                         "FROM 게시글 a " +
                         "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
                         "WHERE a.게시판번호 = " + num +
-                        "ORDER BY a.게시글번호";
+                        "ORDER BY a.좋아요수 DESC";
 
             } else sql = "SELECT a.*, m.아이디 " +
                     "FROM 게시글 a " +
@@ -140,6 +140,7 @@ public class ArticleDAO {
                 Date date = rs.getDate("작성일");
                 String id = rs.getString("아이디");
                 int view = rs.getInt("조회수");
+                int like = rs.getInt("좋아요수");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
@@ -150,6 +151,7 @@ public class ArticleDAO {
                 vo.setDate(date);
                 vo.setId(id);
                 vo.setView(view);
+                vo.setLike(like);
                 list.add(vo);
             }
             Common.close(rs);
@@ -324,9 +326,13 @@ public class ArticleDAO {
             pStmt = conn.prepareStatement(sql);
             pStmt.setInt(1, commentNum);
             pStmt.executeUpdate();
+
+            System.out.println("댓글삭제완료");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Common.close(pStmt);
+        Common.close(conn);
     }
 
     public List<ArticleVO> viewComment(int num) {
@@ -461,6 +467,8 @@ public class ArticleDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Common.close(pStmt);
+        Common.close(conn);
     }
 
     public int countLike(String id, int anum) {
@@ -480,47 +488,110 @@ public class ArticleDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Common.close(pStmt);
+        Common.close(conn);
         return count;
     }
+
+    public boolean plusLike(int anum) {
+        int result = 0;
+        String sql = "UPDATE 게시글 SET 좋아요수 = 좋아요수 + 1  WHERE 게시글번호 = ? ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            result = pStmt.executeUpdate();
+            System.out.println("좋아요 증가 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public boolean minusLike(int anum) {
+        int result = 0;
+        String sql = "UPDATE 게시글 SET 좋아요수 = 좋아요수 - 1  WHERE 게시글번호 = ? ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            result = pStmt.executeUpdate();
+            System.out.println("좋아요 감소 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public void deleteCommentAll(int anum) {
+        String sql = "DELETE FROM 댓글 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, anum);
+            pStmt.executeUpdate();
+            System.out.println("댓글 전체 삭제 ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
+    public int isUser(String id, int anum) {
+        String sql = "SELECT COUNT(*) FROM 게시글 WHERE 회원번호 = (SELECT 회원번호 FROM 회원 WHERE 아이디 = ? ) AND 게시글번호 = ?";
+        int count = 0;
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.setInt(2, anum);
+            try (ResultSet rs = pStmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+            System.out.println("본인작성글 : " + count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+        return count;
+    }
+
+    public int commentMatch(String id, int commentNum, int anum) {
+        String sql = "SELECT COUNT(*) FROM 댓글 WHERE 회원번호 = (SELECT 회원번호 FROM 회원 WHERE 아이디 = ? ) AND 댓글번호 = ? AND 게시글번호 = ? ";
+        int count = 0;
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.setInt(2, commentNum);
+            pStmt.setInt(3, anum);
+            try (ResultSet rs = pStmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+            System.out.println("본인작성댓글 : " + count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+        return count;
+    }
+
 }
 
-//    public List<ArticleVO> product(int num) {
-//
-//        List<ArticleVO> list = new ArrayList<>();
-//        try {
-//            conn = getConnection();
-//            stmt = conn.createStatement(); // Statement 객체 얻기
-//
-//             String sql = "SELECT * " +
-//                        "FROM 상품정보 " +
-//                        "WHERE = " + num;
-//
-//            rs = stmt.executeQuery(sql);
-//            while (rs.next()) {
-//                int anum = rs.getInt("게시글번호");
-//                int bnum = rs.getInt("게시판번호");
-//                String title = rs.getString("제목");
-//                String text = rs.getString("내용");
-//                int unum = rs.getInt("회원번호");
-//                Date date = rs.getDate("작성일");
-//                String id = rs.getString("아이디");
-//
-//                ArticleVO vo = new ArticleVO();
-//                vo.setAnum(anum);
-//                vo.setBnum(bnum);
-//                vo.setTitle(title);
-//                vo.setText(text);
-//                vo.setUnum(unum);
-//                vo.setDate(date);
-//                vo.setId(id);
-//                list.add(vo);
-//            }
-//            Common.close(rs);
-//            Common.close(stmt);
-//            Common.close(conn);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
