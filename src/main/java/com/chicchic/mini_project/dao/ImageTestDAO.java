@@ -115,9 +115,7 @@ public class ImageTestDAO {
                 perfumeVO.setName(rs.getString("name"));
                 perfumeVO.setThumbnail(rs.getString("thumbnail"));
                 perfumeVO.setBrand(rs.getInt("brand"));
-
-
-                perfumesList.add(perfumeVO);
+                perfumesList.add(perfumesVO);
 
             }
 
