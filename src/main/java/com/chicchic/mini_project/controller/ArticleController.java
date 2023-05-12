@@ -143,7 +143,7 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/deleteLike/{anum}") // 댓글삭제
+    @GetMapping("/deleteLike/{anum}") //
     public ResponseEntity<List<ArticleVO>> deleteLike(@PathVariable("anum") int anum) {
         ArticleDAO dao = new ArticleDAO();
         dao.deleteLike(anum);
@@ -157,6 +157,42 @@ public class ArticleController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
+    @PostMapping("/plusLike") // 좋아요 증가
+    public ResponseEntity<Boolean> plusLike(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.plusLike(getAnum);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @PostMapping("/minusLike") // 좋아요 감소
+    public ResponseEntity<Boolean> minusLike(@RequestBody Map<String, String> regData) {
+        int getAnum = Integer.parseInt(regData.get("anum"));
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.minusLike(getAnum);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @GetMapping("/deleteCommentAll/{anum}") // 댓글전체삭제
+    public ResponseEntity<List<ArticleVO>> deleteCommentAll(@PathVariable("anum") int anum) {
+        ArticleDAO dao = new ArticleDAO();
+        dao.deleteCommentAll(anum);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/isUser/{anum}/{id}")
+    public ResponseEntity<Integer> isUser(@PathVariable("id") String id, @PathVariable("anum") int anum) {
+        ArticleDAO dao = new ArticleDAO();
+        int count = dao.isUser(id, anum);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping("/commentMatch/{commentNum}/{id}/{anum}")
+    public ResponseEntity<Integer> commentMatch(@PathVariable("id") String id, @PathVariable("commentNum") int commentNum, @PathVariable("anum") int anum) {
+        ArticleDAO dao = new ArticleDAO();
+        int count = dao.commentMatch(id, commentNum, anum);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 }
 //
 //    @GetMapping("/product/{num}")
