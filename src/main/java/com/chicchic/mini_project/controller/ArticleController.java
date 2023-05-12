@@ -45,8 +45,9 @@ public class ArticleController {
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
+        String getImg = regData.get("image");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.newArticle(getId, getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.newArticle(getId, getBnum, getTitle, getText, getPwd, getImg);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
