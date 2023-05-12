@@ -31,4 +31,8 @@ public class ArticleVO {
     //좋아요수
     private int like;
 
+    // 회원
+
+    private String userImg;
+
 }

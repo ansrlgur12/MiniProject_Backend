@@ -53,6 +53,7 @@ public class ArticleDAO {
                 int unum = rs.getInt("회원번호");
                 Date date = rs.getDate("작성일");
                 String id = rs.getString("아이디");
+                String img = rs.getString("이미지");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
@@ -62,6 +63,7 @@ public class ArticleDAO {
                 vo.setUnum(unum);
                 vo.setDate(date);
                 vo.setId(id);
+                vo.setImg(img);
                 list.add(vo);
             }
             Common.close(rs);
@@ -165,11 +167,11 @@ public class ArticleDAO {
     }
 
 
-    public boolean newArticle(String id, int bnum, String title, String text, String pwd) {
+    public boolean newArticle(String id, int bnum, String title, String text, String pwd, String img) {
         int result = 0;
         String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, (SELECT 회원번호 \" +\n" +
                 "                \"        FROM 회원 \" +\n" +
-                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, 'image', 'tag', 1, 0)";
+                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, ?, 'tag', 1, 0)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -178,6 +180,7 @@ public class ArticleDAO {
             pStmt.setString(3, title);
             pStmt.setString(4, pwd);
             pStmt.setString(5, text);
+            pStmt.setString(6, img);
 
             result = pStmt.executeUpdate();
             System.out.println("게시글 등록 DB 결과 확인 : " + result);
@@ -283,7 +286,7 @@ public class ArticleDAO {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
-            String sql = "SELECT a.*, m.아이디 " +
+            String sql = "SELECT a.*, m.아이디, m.이미지 " +
                     "FROM 댓글 a " +
                     "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
                     "WHERE a.게시글번호 = " + num +
@@ -298,6 +301,7 @@ public class ArticleDAO {
                 String commentPwd = rs.getString("비밀번호");
                 Date date = rs.getDate("작성일");
                 String id = rs.getString("아이디");
+                String userImg = rs.getString("이미지");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setCommentNum(commentNum);
@@ -307,6 +311,7 @@ public class ArticleDAO {
                 vo.setUnum(unum);
                 vo.setDate(date);
                 vo.setId(id);
+                vo.setUserImg(userImg);
                 list.add(vo);
             }
             Common.close(rs);
