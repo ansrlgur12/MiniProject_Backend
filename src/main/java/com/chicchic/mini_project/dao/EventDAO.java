@@ -24,15 +24,18 @@ public class EventDAO {
             if (view == 2) {
                 sql = "SELECT * FROM 이벤트 " +
                         "WHERE 시작일 < SYSDATE " +
-                        "AND 종료일 > SYSDATE";
+                        "AND 종료일 > SYSDATE " +
+                        "ORDER BY 이벤트번호";
             }
             else if (view == 3){
                 sql = "SELECT * FROM 이벤트 " +
-                        "WHERE 시작일 > SYSDATE";
+                        "WHERE 시작일 > SYSDATE " +
+                        "ORDER BY 이벤트번호";
             }
             else if (view == 4){
                 sql = "SELECT * FROM 이벤트 " +
-                        "WHERE 종료일 < SYSDATE";
+                        "WHERE 종료일 < SYSDATE " +
+                        "ORDER BY 이벤트번호";
             }
             else sql = "SELECT * FROM 이벤트 " +
                         "ORDER BY 이벤트번호";

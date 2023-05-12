@@ -19,9 +19,9 @@ import java.util.Map;
 public class ImageTestController {
 
 @GetMapping("/ImageTestResult/{selected}")
-public ResponseEntity<PerfumeVO> getPerfumesByConditions(@PathVariable("selected") Integer[] selected) {
+public ResponseEntity<PerfumesVO> getPerfumesByConditions(@PathVariable("selected") Integer[] selected) {
     ImageTestDAO dao = new ImageTestDAO();
-    PerfumeVO perfumes = dao.getPerfumesByConditions(selected);
+    PerfumesVO perfumes = dao.getPerfumesByConditions(selected);
     return new ResponseEntity<>(perfumes, HttpStatus.OK);
     }
 }
