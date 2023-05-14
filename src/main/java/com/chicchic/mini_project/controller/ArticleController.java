@@ -194,11 +194,21 @@ public class ArticleController {
         int count = dao.commentMatch(id, commentNum, anum);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
+
+    @PostMapping("/saveImage") // 글작성
+    public ResponseEntity<Boolean> saveImage(@RequestBody Map<String, String> regData) {
+        String getImage = regData.get("image");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.saveImage(getImage);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchArticle/{text}")
+    public ResponseEntity<List<ArticleVO>> searchArticle(@PathVariable("text") String text) {
+        ArticleDAO dao = new ArticleDAO();
+        System.out.println("게시글 검색");
+        List<ArticleVO> list = dao.searchArticle(text);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
-//
-//    @GetMapping("/product/{num}")
-//    public ResponseEntity<List<ArticleVO>> articleList(@PathVariable("num") int num) {
-//        ArticleDAO dao = new ArticleDAO();
-//        List<ArticleVO> list = dao.product(num);
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }

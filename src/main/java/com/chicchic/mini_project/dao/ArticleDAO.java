@@ -598,5 +598,67 @@ public class ArticleDAO {
         return count;
     }
 
+    public boolean saveImage(String image) {
+        int result = 0;
+        String sql = "INSERT INTO 이미지 VALUES(이미지번호.NEXTVAL, ? )";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, image);
+
+            result = pStmt.executeUpdate();
+            System.out.println("이미지 등록 DB 결과 확인 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public List<ArticleVO> searchArticle(String searchText) {
+        List<ArticleVO> list = new ArrayList<>();
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement(); // Statement 객체 얻기
+
+            String sql = "SELECT a.*, m.아이디 FROM 게시글 a INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+                    "WHERE a.내용 LIKE '%" + searchText + "%' OR a.제목 LIKE '%" + searchText + "%'";
+
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int anum = rs.getInt("게시글번호");
+                int bnum = rs.getInt("게시판번호");
+                String title = rs.getString("제목");
+                String text = rs.getString("내용");
+                int unum = rs.getInt("회원번호");
+                Date date = rs.getDate("작성일");
+                String id = rs.getString("아이디");
+                String img = rs.getString("이미지");
+
+                ArticleVO vo = new ArticleVO();
+                vo.setAnum(anum);
+                vo.setBnum(bnum);
+                vo.setTitle(title);
+                vo.setText(text);
+                vo.setUnum(unum);
+                vo.setDate(date);
+                vo.setId(id);
+                vo.setImg(img);
+                list.add(vo);
+            }
+            Common.close(rs);
+            Common.close(stmt);
+            Common.close(conn);
+            System.out.println("DAO 게시글 검색");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
 
