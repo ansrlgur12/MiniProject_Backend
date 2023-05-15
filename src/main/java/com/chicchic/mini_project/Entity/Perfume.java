@@ -16,5 +16,27 @@ public class Perfume {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    // Getters and setters 생략
+    public int getPerfumeNumber() {
+        return perfumeNumber;
+    }
+
+    public void setPerfumeNumber(int perfumeNumber) {
+        this.perfumeNumber = perfumeNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 }
