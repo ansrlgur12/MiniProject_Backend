@@ -143,6 +143,7 @@ public class ArticleDAO {
                 String id = rs.getString("아이디");
                 int view = rs.getInt("조회수");
                 int like = rs.getInt("좋아요수");
+                String img = rs.getString("이미지");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
@@ -152,6 +153,7 @@ public class ArticleDAO {
                 vo.setUnum(unum);
                 vo.setDate(date);
                 vo.setId(id);
+                vo.setImg(img);
                 vo.setView(view);
                 vo.setLike(like);
                 list.add(vo);
@@ -159,6 +161,7 @@ public class ArticleDAO {
             Common.close(rs);
             Common.close(stmt);
             Common.close(conn);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,9 +232,9 @@ public class ArticleDAO {
         }
     }
 
-    public boolean update(int anum, int bnum, String title, String text, String pwd) {
+    public boolean update(int anum, int bnum, String title, String text, String pwd, String img) {
         int result = 0;
-        String sql = "UPDATE 게시글 SET 게시판번호=?, 제목=?, 비밀번호=?, 내용=? WHERE 게시글번호=?";
+        String sql = "UPDATE 게시글 SET 게시판번호=?, 제목=?, 비밀번호=?, 내용=?, 이미지=? WHERE 게시글번호=?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -240,6 +243,7 @@ public class ArticleDAO {
             pStmt.setString(3, pwd);
             pStmt.setString(4, text);
             pStmt.setInt(5, anum);
+            pStmt.setString(6, img);
 
             result = pStmt.executeUpdate();
             System.out.println("게시글 수정 DB 결과 확인 : " + result);

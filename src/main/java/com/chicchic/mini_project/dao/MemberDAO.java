@@ -120,5 +120,37 @@ public class MemberDAO {
         else return false;
     }
 
+    public boolean memberDelete(String id) {
+        int result = 0;
+        String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+        if(result == 1) return true;
+        else return false;
+    }
+
+    public void memberArticleDelete(String id) {
+        String sql = "DELETE FROM 게시글 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.executeUpdate();
+            System.out.println("댓글 전체 삭제 ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
 
 }

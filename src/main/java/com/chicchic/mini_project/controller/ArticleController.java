@@ -66,8 +66,10 @@ public class ArticleController {
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
+        String getImg = regData.get("img");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd, getImg);
+        System.out.println("글수정 완료");
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 

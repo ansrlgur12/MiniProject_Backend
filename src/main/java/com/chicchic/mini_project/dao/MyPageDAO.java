@@ -39,6 +39,7 @@ public class MyPageDAO {
             Common.close(rs);
             Common.close(stmt);
             Common.close(conn);
+            System.out.println("프로필사진 불러오기 성공");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +58,7 @@ public class MyPageDAO {
 
             result = pStmt.executeUpdate();
             System.out.println("회원 이미지 수정 DB 결과 확인 : " + result);
+            System.out.println(image);
 
         } catch (Exception e) {
             e.printStackTrace();
