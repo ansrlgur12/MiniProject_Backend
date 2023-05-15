@@ -1,7 +1,7 @@
 package com.chicchic.mini_project.dao;
 
 import com.chicchic.mini_project.Entity.Brand;
-import com.chicchic.mini_project.Entity.PerfumeDetail;
+import com.chicchic.mini_project.Entity.PerfumeDetailEntity;
 import com.chicchic.mini_project.Repository.BrandRepository;
 import com.chicchic.mini_project.Repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class PerfumeSearchDAO {
     @Autowired
     private BrandRepository brandRepository;
 
-    public List<PerfumeDetail> searchPerfumes(String brandName, double minPrice, double maxPrice, int gender) {
+    public List<PerfumeDetailEntity> searchPerfumes(String brandName, double minPrice, double maxPrice, int gender) {
         Brand brand = brandRepository.findByName(brandName).orElse(null);
         return searchRepository.findByBrandAndPriceBetweenAndGender(brand, minPrice, maxPrice, gender);
     }
