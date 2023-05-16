@@ -15,7 +15,7 @@ public class PerfumesVO {
     private Long pk;
     private String model;
     private PerfumeDataVO fields;
-    private Long perfume_number;
+    private Long perfumeNumber;
     private String name;
     private Date launch_date;
     private String thumbnail;
