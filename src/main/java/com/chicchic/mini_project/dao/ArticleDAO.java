@@ -234,7 +234,7 @@ public class ArticleDAO {
 
     public boolean update(int anum, int bnum, String title, String text, String pwd, String img) {
         int result = 0;
-        String sql = "UPDATE 게시글 SET 게시판번호=?, 제목=?, 비밀번호=?, 내용=?, 이미지=? WHERE 게시글번호=?";
+        String sql = "UPDATE 게시글 SET 게시판번호 = ?, 제목 = ?, 비밀번호 = ?, 내용 = ?, 이미지 = ? WHERE 게시글번호 = ?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -257,6 +257,8 @@ public class ArticleDAO {
         if (result == 1) return true;
         else return false;
     }
+
+
     public boolean newComment(int anum, String id, String text, String pwd) {
         int result = 0;
         String sql = "INSERT INTO 댓글 VALUES(댓글번호.NEXTVAL, ?, " +
@@ -601,9 +603,6 @@ public class ArticleDAO {
         Common.close(conn);
         return count;
     }
-
-
-
 
     public List<ArticleVO> searchArticle(String searchText) {
         List<ArticleVO> list = new ArrayList<>();

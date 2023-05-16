@@ -120,7 +120,7 @@ public class MemberDAO {
         else return false;
     }
 
-    public boolean memberDelete(String id) {
+    public boolean memberDelete(String id) { // 회원삭제
         int result = 0;
         String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
 
@@ -134,23 +134,10 @@ public class MemberDAO {
         }
         Common.close(pStmt);
         Common.close(conn);
+        System.out.println("회원탈퇴 성공");
         if(result == 1) return true;
         else return false;
     }
 
-    public void memberArticleDelete(String id) {
-        String sql = "DELETE FROM 게시글 WHERE 게시글번호 = ?";
-        try {
-            conn = Common.getConnection();
-            pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, id);
-            pStmt.executeUpdate();
-            System.out.println("댓글 전체 삭제 ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Common.close(pStmt);
-        Common.close(conn);
-    }
 
 }
