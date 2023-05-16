@@ -33,7 +33,7 @@ public class NoteFinderDAO {
             rs = pStmt.executeQuery();
             while (rs.next()) {
                 PerfumesVO perfumesVO = new PerfumesVO();
-                perfumesVO.setPerfume_number(rs.getLong("perfume_number"));
+                perfumesVO.setPerfumeNumber(rs.getLong("perfume_number"));
                 perfumesVO.setThumbnail(rs.getString("thumbnail"));
                 perfumesVO.setName(rs.getString("name"));
                 perfumes.add(perfumesVO);

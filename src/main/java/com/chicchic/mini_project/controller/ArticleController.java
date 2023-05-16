@@ -197,13 +197,7 @@ public class ArticleController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    @PostMapping("/saveImage") // 글작성
-    public ResponseEntity<Boolean> saveImage(@RequestBody Map<String, String> regData) {
-        String getImage = regData.get("image");
-        ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.saveImage(getImage);
-        return new ResponseEntity<>(isTrue, HttpStatus.OK);
-    }
+
 
     @GetMapping("/searchArticle/{text}")
     public ResponseEntity<List<ArticleVO>> searchArticle(@PathVariable("text") String text) {
