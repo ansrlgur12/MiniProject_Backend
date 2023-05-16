@@ -172,7 +172,7 @@ public class ArticleDAO {
 
     public boolean newArticle(String id, int bnum, String title, String text, String pwd, String img) {
         int result = 0;
-        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, 1, (SELECT 회원번호 \" +\n" +
+        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, (SELECT 회원번호 \" +\n" +
                 "                \"        FROM 회원 \" +\n" +
                 "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, ?, 'tag', 1, 0)";
         try {
@@ -234,7 +234,7 @@ public class ArticleDAO {
 
     public boolean update(int anum, int bnum, String title, String text, String pwd, String img) {
         int result = 0;
-        String sql = "UPDATE 게시글 SET 게시판번호=?, 제목=?, 비밀번호=?, 내용=?, 이미지=? WHERE 게시글번호=?";
+        String sql = "UPDATE 게시글 SET 게시판번호 = ?, 제목 = ?, 비밀번호 = ?, 내용 = ?, 이미지 = ? WHERE 게시글번호 = ?";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -242,8 +242,8 @@ public class ArticleDAO {
             pStmt.setString(2, title);
             pStmt.setString(3, pwd);
             pStmt.setString(4, text);
-            pStmt.setInt(5, anum);
-            pStmt.setString(6, img);
+            pStmt.setString(5, img);
+            pStmt.setInt(6, anum);
 
             result = pStmt.executeUpdate();
             System.out.println("게시글 수정 DB 결과 확인 : " + result);
@@ -257,6 +257,8 @@ public class ArticleDAO {
         if (result == 1) return true;
         else return false;
     }
+
+
     public boolean newComment(int anum, String id, String text, String pwd) {
         int result = 0;
         String sql = "INSERT INTO 댓글 VALUES(댓글번호.NEXTVAL, ?, " +
@@ -600,27 +602,6 @@ public class ArticleDAO {
         Common.close(pStmt);
         Common.close(conn);
         return count;
-    }
-
-    public boolean saveImage(String image) {
-        int result = 0;
-        String sql = "INSERT INTO 이미지 VALUES(이미지번호.NEXTVAL, ? )";
-        try {
-            conn = Common.getConnection();
-            pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, image);
-
-            result = pStmt.executeUpdate();
-            System.out.println("이미지 등록 DB 결과 확인 : " + result);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Common.close(pStmt);
-        Common.close(conn);
-
-        if (result == 1) return true;
-        else return false;
     }
 
     public List<ArticleVO> searchArticle(String searchText) {

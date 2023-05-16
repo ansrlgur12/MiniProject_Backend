@@ -61,10 +61,5 @@ public class MemberController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    @GetMapping("/memberArticleDelete/{id}") // 댓글전체삭제
-    public ResponseEntity<List<ArticleVO>> memberArticleDelete(@PathVariable("id") String id) {
-        MemberDAO dao = new MemberDAO();
-        dao.memberArticleDelete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    
 }
