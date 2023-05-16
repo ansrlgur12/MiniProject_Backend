@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class PerfumeSearchDAO {
@@ -25,8 +25,9 @@ public class PerfumeSearchDAO {
         return searchRepository.findByBrandAndPriceBetweenAndGender(brand, minPrice, maxPrice, gender);
     }
 
-    public Optional<Brand> findBrandByName(String brandName) {
-        return brandRepository.findByName(brandName);
+    public List<Brand> findBrandsByNumbers() {
+        List<Integer> brandNumbers = Arrays.asList(528, 555, 614, 653, 1054, 1525, 1934, 2104, 3032, 3140);
+        return searchRepository.findBrandsByNumbers(brandNumbers);
     }
 
     public List<Brand> getTopBrands(int limit) {
@@ -41,6 +42,11 @@ public class PerfumeSearchDAO {
         }
         return topBrands;
     }
+
+    public List<PerfumeDetailEntity> searchPerfumesByName(String perfumeName) {
+        return searchRepository.findByNameContainingIgnoreCase(perfumeName.toLowerCase());
+    }
+
 
 
 }

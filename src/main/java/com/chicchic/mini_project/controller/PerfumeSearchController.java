@@ -31,8 +31,19 @@ public class PerfumeSearchController {
         return perfumeSearchDAO.searchPerfumes(brandIdentifier, minPrice, maxPrice, gender);
     }
 
+    @GetMapping("/brands-by-numbers")
+    public List<Brand> getBrandsByNumbers() {
+        return perfumeSearchDAO.findBrandsByNumbers();
+    }
+
     @GetMapping("/top-brands")
     public List<Brand> getTopBrands(@RequestParam(value = "limit", defaultValue = "10") int limit) {
         return perfumeSearchDAO.getTopBrands(limit);
+    }
+
+    @GetMapping("/searchByName")
+    public List<PerfumeDetailEntity> searchPerfumesByName(@RequestParam(value = "name") String perfumeName) {
+        return perfumeSearchDAO.searchPerfumesByName(perfumeName);
+
     }
 }
