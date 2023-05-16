@@ -1,6 +1,6 @@
 package com.chicchic.mini_project.controller;
 
-import com.chicchic.mini_project.Entity.PerfumeDetail;
+import com.chicchic.mini_project.Entity.PerfumeDetailEntity;
 import com.chicchic.mini_project.Repository.PerfumeDetailRepository;
 import com.chicchic.mini_project.vo.PerfumeDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,16 @@ public class PerfumeDetailController {
 
     @GetMapping("/{perfumeNumber}")
     public ResponseEntity<PerfumeDetailVO> getPerfumeDetail(@PathVariable int perfumeNumber) {
-        Optional<PerfumeDetail> optionalPerfumeDetail = perfumeDetailRepository.findById(perfumeNumber);
+        Optional<PerfumeDetailEntity> optionalPerfumeDetail = perfumeDetailRepository.findById(perfumeNumber);
 
         if (optionalPerfumeDetail.isPresent()) {
-            PerfumeDetail perfumeDetail = optionalPerfumeDetail.get();
+            PerfumeDetailEntity perfumeDetail = optionalPerfumeDetail.get();
             PerfumeDetailVO perfumeDetailVO = new PerfumeDetailVO();
             perfumeDetailVO.setPerfumeNumber(perfumeDetail.getPerfumeNumber());
             perfumeDetailVO.setName(perfumeDetail.getName());
             perfumeDetailVO.setLaunchDate(new Date(perfumeDetail.getLaunchDate().getTime()));
             perfumeDetailVO.setGender(perfumeDetail.getGender());
+            perfumeDetailVO.setThumbnail(perfumeDetail.getThumbnail());
             perfumeDetailVO.setPrice(perfumeDetail.getPrice());
             perfumeDetailVO.setBrandName(perfumeDetail.getBrand().getName());
 

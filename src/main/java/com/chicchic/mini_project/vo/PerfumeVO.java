@@ -1,10 +1,12 @@
 package com.chicchic.mini_project.vo;
 
 
+import com.chicchic.mini_project.Entity.Perfume;
+
 import java.sql.Date;
 import java.util.List;
 
-public class PerfumeVO {
+public class PerfumeVO extends Perfume {
     private int perfumeNumber;
     private String name;
     private String thumbnail;

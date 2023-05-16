@@ -99,7 +99,7 @@ public class MemberDAO {
 
     public boolean memberRegister(String id, String pwd, String name, String email) {
         int result = 0;
-        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일, 회원등급) VALUES(회원번호.NEXTVAL, ?, ?, ?, ?, '기본')";
+        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일) VALUES(회원번호.NEXTVAL, ?, ?, ?, ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
@@ -120,5 +120,37 @@ public class MemberDAO {
         else return false;
     }
 
+    public boolean memberDelete(String id) {
+        int result = 0;
+        String sql = "DELETE FROM 회원 WHERE 아이디 = ?";
+
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+        if(result == 1) return true;
+        else return false;
+    }
+
+    public void memberArticleDelete(String id) {
+        String sql = "DELETE FROM 게시글 WHERE 게시글번호 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            pStmt.executeUpdate();
+            System.out.println("댓글 전체 삭제 ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
 
 }

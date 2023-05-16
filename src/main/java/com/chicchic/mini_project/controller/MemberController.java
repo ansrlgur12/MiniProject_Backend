@@ -1,6 +1,8 @@
 package com.chicchic.mini_project.controller;
 
+import com.chicchic.mini_project.dao.ArticleDAO;
 import com.chicchic.mini_project.dao.MemberDAO;
+import com.chicchic.mini_project.vo.ArticleVO;
 import com.chicchic.mini_project.vo.MemberVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +52,19 @@ public class MemberController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
+    // POST : 회원 탈퇴
+    @PostMapping("/memberDelete")
+    public ResponseEntity<Boolean> memberDelete(@RequestBody Map<String, String> delData) {
+        String getId = delData.get("id");
+        MemberDAO dao = new MemberDAO();
+        boolean isTrue = dao.memberDelete(getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @GetMapping("/memberArticleDelete/{id}") // 댓글전체삭제
+    public ResponseEntity<List<ArticleVO>> memberArticleDelete(@PathVariable("id") String id) {
+        MemberDAO dao = new MemberDAO();
+        dao.memberArticleDelete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

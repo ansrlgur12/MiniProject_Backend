@@ -66,8 +66,10 @@ public class ArticleController {
         String getTitle = regData.get("title");
         String getText = regData.get("text");
         String getPwd = regData.get("pwd");
+        String getImg = regData.get("img");
         ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd);
+        boolean isTrue = dao.update(getAnum, getBnum, getTitle, getText, getPwd, getImg);
+        System.out.println("글수정 완료");
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
@@ -193,14 +195,6 @@ public class ArticleController {
         ArticleDAO dao = new ArticleDAO();
         int count = dao.commentMatch(id, commentNum, anum);
         return new ResponseEntity<>(count, HttpStatus.OK);
-    }
-
-    @PostMapping("/saveImage") // 글작성
-    public ResponseEntity<Boolean> saveImage(@RequestBody Map<String, String> regData) {
-        String getImage = regData.get("image");
-        ArticleDAO dao = new ArticleDAO();
-        boolean isTrue = dao.saveImage(getImage);
-        return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
     @GetMapping("/searchArticle/{text}")

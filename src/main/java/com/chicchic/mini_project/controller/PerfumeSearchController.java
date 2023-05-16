@@ -1,6 +1,6 @@
 package com.chicchic.mini_project.controller;
 
-import com.chicchic.mini_project.Entity.PerfumeDetail;
+import com.chicchic.mini_project.Entity.PerfumeDetailEntity;
 import com.chicchic.mini_project.Entity.Brand;
 import com.chicchic.mini_project.dao.PerfumeDAO;
 import com.chicchic.mini_project.dao.PerfumeSearchDAO;
@@ -23,7 +23,7 @@ public class PerfumeSearchController {
     private PerfumeSearchDAO perfumeSearchDAO;
 
     @GetMapping("/search")
-    public List<PerfumeDetail> searchPerfumes(
+    public List<PerfumeDetailEntity> searchPerfumes(
             @RequestParam(value = "brandIdentifier", required = false) String brandIdentifier,
             @RequestParam(value = "minPrice", defaultValue = "0") double minPrice,
             @RequestParam(value = "maxPr ice", defaultValue = "10000") double maxPrice,
@@ -31,8 +31,19 @@ public class PerfumeSearchController {
         return perfumeSearchDAO.searchPerfumes(brandIdentifier, minPrice, maxPrice, gender);
     }
 
+    @GetMapping("/brands-by-numbers")
+    public List<Brand> getBrandsByNumbers() {
+        return perfumeSearchDAO.findBrandsByNumbers();
+    }
+
     @GetMapping("/top-brands")
     public List<Brand> getTopBrands(@RequestParam(value = "limit", defaultValue = "10") int limit) {
         return perfumeSearchDAO.getTopBrands(limit);
+    }
+
+    @GetMapping("/searchByName")
+    public List<PerfumeDetailEntity> searchPerfumesByName(@RequestParam(value = "name") String perfumeName) {
+        return perfumeSearchDAO.searchPerfumesByName(perfumeName);
+
     }
 }
