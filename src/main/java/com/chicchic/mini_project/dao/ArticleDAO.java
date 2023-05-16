@@ -242,8 +242,8 @@ public class ArticleDAO {
             pStmt.setString(2, title);
             pStmt.setString(3, pwd);
             pStmt.setString(4, text);
-            pStmt.setInt(5, anum);
-            pStmt.setString(6, img);
+            pStmt.setString(5, img);
+            pStmt.setInt(6, anum);
 
             result = pStmt.executeUpdate();
             System.out.println("게시글 수정 DB 결과 확인 : " + result);
