@@ -15,4 +15,13 @@ public interface SearchRepository extends JpaRepository<PerfumeDetailEntity, Int
 
     @Query("SELECT p.brand.name, COUNT(p) FROM PerfumeDetail p GROUP BY p.brand.name ORDER BY COUNT(p) DESC")
     List<Object[]> findTopBrandsWithCounts();
+
+    @Query("SELECT b FROM Brand b WHERE b.brandNumber IN ?1")
+    List<Brand> findBrandsByNumbers(List<Integer> brandNumbers);
+
+    List<PerfumeDetailEntity> findAll();
+
+
+    List<PerfumeDetailEntity> findByNameContainingIgnoreCase(String name);
+
 }
