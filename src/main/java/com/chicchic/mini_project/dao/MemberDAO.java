@@ -99,7 +99,7 @@ public class MemberDAO {
 
     public boolean memberRegister(String id, String pwd, String name, String email) {
         int result = 0;
-        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일, 회원등급) VALUES(회원번호.NEXTVAL, ?, ?, ?, ?, '기본')";
+        String sql = "INSERT INTO 회원(회원번호, 이름, 아이디, 비밀번호, 이메일) VALUES(회원번호.NEXTVAL, ?, ?, ?, ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
