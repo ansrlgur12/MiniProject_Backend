@@ -197,8 +197,6 @@ public class ArticleController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-
-
     @GetMapping("/searchArticle/{text}")
     public ResponseEntity<List<ArticleVO>> searchArticle(@PathVariable("text") String text) {
         ArticleDAO dao = new ArticleDAO();
