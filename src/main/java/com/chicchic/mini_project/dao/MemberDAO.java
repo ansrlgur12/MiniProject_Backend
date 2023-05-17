@@ -139,5 +139,64 @@ public class MemberDAO {
         else return false;
     }
 
+    public boolean plusThreePoint(String id) {
+        int result = 0;
+        String sql = "UPDATE 회원 SET 회원점수 = 회원점수 + 3  WHERE 아이디 = ? ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+            System.out.println("3점 증가 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public boolean plusOnePoint(String id) {
+        int result = 0;
+        String sql = "UPDATE 회원 SET 회원점수 = 회원점수 + 1  WHERE 아이디 = ? ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+            System.out.println("1점 증가 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public boolean myGrade(String id) {
+        int result = 0;
+        String sql = "UPDATE 회원 SET 회원등급 = 회원점수 / 10  WHERE 아이디 = ? ";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+            result = pStmt.executeUpdate();
+            System.out.println("회원등급 갱신 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
 
 }
