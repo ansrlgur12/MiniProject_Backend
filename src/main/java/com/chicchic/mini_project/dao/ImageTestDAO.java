@@ -111,7 +111,7 @@ public class ImageTestDAO {
             List<PerfumesVO> perfumesList = new ArrayList<>();
             while (rs.next()) {
                 PerfumesVO perfumeVO = new PerfumesVO();
-                perfumeVO.setPerfume_number(rs.getLong("perfume_Number"));
+                perfumeVO.setPerfumeNumber(rs.getLong("perfume_Number"));
                 perfumeVO.setName(rs.getString("name"));
                 perfumeVO.setThumbnail(rs.getString("thumbnail"));
                 perfumeVO.setBrand(rs.getInt("brand"));

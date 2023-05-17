@@ -67,7 +67,7 @@ public class MyPageDAO {
         else return false;
     }
     // 마이페이지 내가 쓴 리뷰
-    public List<ArticleVO> myHistory(int view, String id) {
+    public List<ArticleVO> myHistory(String id, int views) {
         String sql = null;
         List<ArticleVO> list = new ArrayList<>();
         try {
@@ -75,24 +75,37 @@ public class MyPageDAO {
             stmt = conn.createStatement();
 
             // 내 리뷰
-            if(view == 1) {
+            if(views == 1) {
                 sql = "SELECT * FROM 게시글 " +
-                        "WHERE 아이디 '" + id + "' " +
+                        "WHERE 회원번호 = " +
+                        "(SELECT 회원번호 FROM 회원 " +
+                        "WHERE 아이디 = '" + id + "')" +
                         "ORDER BY 게시글번호 DESC";
             }
             // 내 댓글
-            else if(view == 2) {
-                sql = "SELECT * FROM 댓글 " +
-                        "WHERE 아이디 '" + id + "' " +
+            else if(views == 2) {
+                sql = "SELECT * FROM 게시글 " +
+                        "WHERE 회원번호 = " +
+                        "(SELECT 회원번호 FROM 회원 " +
+                        "WHERE 아이디 = '" + id + "')" +
                         "ORDER BY 게시글번호 DESC";
             }
             // 내 좋아요
-            else if(view == 3) {
+            else if(views == 3) {
                 sql = "SELECT * FROM 게시글 " +
-                        "WHERE 아이디 '" + id + "' " +
+                        "WHERE 회원번호 = " +
+                        "(SELECT 회원번호 FROM 회원 " +
+                        "WHERE 아이디 = '" + id + "')" +
                         "ORDER BY 게시글번호 DESC";
             }
             // 내 한줄평
+            else if(views == 4) {
+                sql = "SELECT * FROM 게시글 " +
+                        "WHERE 회원번호 = " +
+                        "(SELECT 회원번호 FROM 회원 " +
+                        "WHERE 아이디 = '" + id + "')" +
+                        "ORDER BY 게시글번호 DESC";
+            }
 
             rs = stmt.executeQuery(sql);
 
