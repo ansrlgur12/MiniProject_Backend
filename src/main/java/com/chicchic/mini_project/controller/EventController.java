@@ -11,10 +11,17 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EventController {
-    @GetMapping("/EventPage/{eventNum}")
-    public ResponseEntity<List<EventVO>> eventList(@PathVariable("eventNum") int eventNum){
+    @GetMapping("/EventPage/{eventNum}/{view}")
+    public ResponseEntity<List<EventVO>> eventList(@PathVariable("eventNum") int eventNum, @PathVariable("view") int view){
         EventDAO dao = new EventDAO();
-        List<EventVO> list = dao.eventDesc();
+        List<EventVO> list = dao.eventList(eventNum, view);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/EventDesc/{eventNum}")
+    public ResponseEntity<List<EventVO>> eventDesc(@PathVariable("eventNum") int eventNum){
+        EventDAO dao = new EventDAO();
+        List<EventVO> list = dao.eventDesc(eventNum);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

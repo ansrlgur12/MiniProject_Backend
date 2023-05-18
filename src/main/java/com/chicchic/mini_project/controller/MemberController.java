@@ -61,10 +61,30 @@ public class MemberController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    @GetMapping("/memberArticleDelete/{id}") // 댓글전체삭제
-    public ResponseEntity<List<ArticleVO>> memberArticleDelete(@PathVariable("id") String id) {
+    @PostMapping("/plusThreePoint") // 3점 증가
+    public ResponseEntity<Boolean> plusThreePoint(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
         MemberDAO dao = new MemberDAO();
-        dao.memberArticleDelete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        boolean isTrue = dao.plusThreePoint(getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
+
+    @PostMapping("/plusOnePoint") // 1점 증가
+    public ResponseEntity<Boolean> plusOnePoint(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
+        MemberDAO dao = new MemberDAO();
+        boolean isTrue = dao.plusOnePoint(getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+    @PostMapping("/myGrade") // 등급 새로고침
+    public ResponseEntity<Boolean> myGrade(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
+        MemberDAO dao = new MemberDAO();
+        boolean isTrue = dao.myGrade(getId);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
+
+
 }
