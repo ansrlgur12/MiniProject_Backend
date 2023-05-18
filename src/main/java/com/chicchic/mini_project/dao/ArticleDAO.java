@@ -127,7 +127,7 @@ public class ArticleDAO {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
-            String sql = "SELECT a.*, m.아이디 " +
+            String sql = "SELECT a.*, m.아이디, m.회원등급 " +
                     "FROM 게시글 a " +
                     "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
                     "WHERE a.게시글번호 = " + num;
@@ -144,6 +144,7 @@ public class ArticleDAO {
                 int view = rs.getInt("조회수");
                 int like = rs.getInt("좋아요수");
                 String img = rs.getString("이미지");
+                int userGrade = rs.getInt("회원등급");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setAnum(anum);
@@ -156,6 +157,7 @@ public class ArticleDAO {
                 vo.setImg(img);
                 vo.setView(view);
                 vo.setLike(like);
+                vo.setUserGrade(userGrade);
                 list.add(vo);
             }
             Common.close(rs);
@@ -292,11 +294,23 @@ public class ArticleDAO {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
-            String sql = "SELECT a.*, m.아이디, m.이미지 " +
+//            String sql = "SELECT a.*, m.아이디, m.이미지 " +
+//                    "FROM 댓글 a " +
+//                    "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
+//                    "WHERE a.게시글번호 = " + num +
+//                    "ORDER BY a.댓글번호";
+            String sql = "SELECT a.댓글번호, a.게시글번호, a.회원번호, a.내용, a.비밀번호, m.아이디, m.이미지, " +
+                    "CASE " +
+                    "    WHEN SYSDATE - a.작성일 < 1/24/60 THEN FLOOR((SYSDATE - a.작성일) * 24 * 60 * 60) || '초 전' " +
+                    "    WHEN SYSDATE - a.작성일 < 1/24 THEN FLOOR((SYSDATE - a.작성일) * 24 * 60) || '분 전' " +
+                    "    WHEN SYSDATE - a.작성일 < 1 THEN FLOOR((SYSDATE - a.작성일) * 24) || '시간 전' " +
+                    "    ELSE TO_CHAR(a.작성일, 'YYYY-MM-DD') " +
+                    "END AS 작성일 " +
                     "FROM 댓글 a " +
                     "INNER JOIN 회원 m ON a.회원번호 = m.회원번호 " +
                     "WHERE a.게시글번호 = " + num +
-                    "ORDER BY a.댓글번호";
+                    " ORDER BY a.댓글번호 ";
+
 
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -305,9 +319,9 @@ public class ArticleDAO {
                 int unum = rs.getInt("회원번호");
                 String commentText = rs.getString("내용");
                 String commentPwd = rs.getString("비밀번호");
-                Date date = rs.getDate("작성일");
                 String id = rs.getString("아이디");
                 String userImg = rs.getString("이미지");
+                String date2 = rs.getString("작성일");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setCommentNum(commentNum);
@@ -315,7 +329,7 @@ public class ArticleDAO {
                 vo.setCommentText(commentText);
                 vo.setCommentPwd(commentPwd);
                 vo.setUnum(unum);
-                vo.setDate(date);
+                vo.setDate2(date2);
                 vo.setId(id);
                 vo.setUserImg(userImg);
                 list.add(vo);

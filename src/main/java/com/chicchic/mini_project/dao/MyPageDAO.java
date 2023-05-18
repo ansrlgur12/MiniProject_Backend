@@ -22,15 +22,17 @@ public class MyPageDAO {
             conn = getConnection();
             stmt = conn.createStatement(); // Statement 객체 얻기
 
-            String sql = "SELECT 이미지 " +
+            String sql = "SELECT * " +
                     "FROM 회원" +
                     " WHERE 아이디 = '" + id + "'";
 
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String userImg  = rs.getString("이미지");
+                int userGrade = rs.getInt("회원등급");
                 ArticleVO vo = new ArticleVO();
                 vo.setUserImg(userImg);
+                vo.setUserGrade(userGrade);
                 list.add(vo);
             }
             Common.close(rs);
