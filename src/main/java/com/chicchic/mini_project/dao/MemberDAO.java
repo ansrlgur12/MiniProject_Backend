@@ -3,11 +3,12 @@ package com.chicchic.mini_project.dao;
 import com.chicchic.mini_project.common.Common;
 import com.chicchic.mini_project.vo.MemberVO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.chicchic.mini_project.common.Common.getConnection;
 
 
 public class MemberDAO {

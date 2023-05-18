@@ -346,7 +346,7 @@ public class ArticleDAO {
         Common.close(conn);
     }
 
-    public List<ArticleVO> viewComment(int num) {
+    public List<ArticleVO> viewComment(int num) { //한줄평 보여주는 코드
         List<ArticleVO> list = new ArrayList<>();
         try {
             conn = getConnection();
