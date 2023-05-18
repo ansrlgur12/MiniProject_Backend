@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +17,21 @@ import java.util.Map;
 public class MemberController {
     // POST : 로그인
     @PostMapping("/login")
-    public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<Map<String, Object>> memberLogin(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
         String pwd = loginData.get("pwd");
 
         MemberDAO dao = new MemberDAO();
-        boolean result = dao.loginCheck(id, pwd);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        if(dao.loginCheck(id, pwd)) {
+            response.put("success", true);
+            String userImage = dao.getUserImage(id);
+            response.put("id", id);
+            response.put("userImage", userImage);
+        } else {
+            response.put("success", false);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     // GET : 회원조회
     @GetMapping("/member")
