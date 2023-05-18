@@ -66,6 +66,7 @@ public class MyPageDAO {
         if (result == 1) return true;
         else return false;
     }
+
     // 마이페이지 내가 쓴 리뷰
     public List<ArticleVO> myHistory(String id, int views) {
         String sql = null;
@@ -84,11 +85,11 @@ public class MyPageDAO {
             }
             // 내 댓글
             else if(views == 2) {
-                sql = "SELECT * FROM 게시글 " +
+                sql = "SELECT * FROM 댓글 " +
                         "WHERE 회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 " +
                         "WHERE 아이디 = '" + id + "')" +
-                        "ORDER BY 게시글번호 DESC";
+                        "ORDER BY 댓글번호 DESC";
             }
             // 내 좋아요
             else if(views == 3) {
@@ -118,7 +119,8 @@ public class MyPageDAO {
                 Date date = rs.getDate("작성일");
                 int viewCnt = rs.getInt("조회수");
                 int pLiked = rs.getInt("좋아요수");
-                String cmtText = rs.getString("내용");
+//                String cmtText = rs.getString("내용");
+//                int cmtNum = rs.getInt("댓글번호");
 
                 ArticleVO vo = new ArticleVO();
 
@@ -130,7 +132,8 @@ public class MyPageDAO {
                 vo.setDate(date);
                 vo.setView(viewCnt);
                 vo.setLike(pLiked);
-                vo.setCommentText(cmtText);
+//                vo.setCommentText(cmtText);
+//                vo.setCommentNum(cmtNum);
                 list.add(vo);
             }
             Common.close(rs);
@@ -142,4 +145,5 @@ public class MyPageDAO {
         }
         return list;
     }
+
 }

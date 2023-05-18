@@ -645,5 +645,34 @@ public class ArticleDAO {
         }
         return list;
     }
+
+    // 공지사항, news 글쓰기
+    public boolean newNotice(int bnum, String id, String title, String text, String pwd, String img) {
+        int result = 0;
+        String sql = "INSERT INTO 게시글 VALUES(게시글번호.NEXTVAL, ?, (SELECT 회원번호 \" +\n" +
+                "                \"        FROM 회원 \" +\n" +
+                "                \"     WHERE 아이디 = ?), ?, ?, ?, SYSDATE, ?, 'tag', 1, 0)";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, bnum);
+            pStmt.setString(2, id);
+            pStmt.setString(3, title);
+            pStmt.setString(4, pwd);
+            pStmt.setString(5, text);
+            pStmt.setString(6, img);
+
+            result = pStmt.executeUpdate();
+            System.out.println("게시글 등록 DB 결과 확인 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
 }
 

@@ -51,6 +51,20 @@ public class ArticleController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
+    // 공지사항, 새소식 글작성
+    @PostMapping("/NewNotice") // 글작성
+    public ResponseEntity<Boolean> newNotice(@RequestBody Map<String, String> regData) {
+        int getBnum = Integer.parseInt(regData.get("bnum"));
+        String getId = regData.get("id");
+        String getTitle = regData.get("title");
+        String getText = regData.get("text");
+        String getPwd = regData.get("pwd");
+        String getImg = regData.get("image");
+        ArticleDAO dao = new ArticleDAO();
+        boolean isTrue = dao.newNotice(getBnum, getId, getTitle, getText, getPwd, getImg);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
+
     @GetMapping("/articleDelete/{anum}") // 글삭제
     public ResponseEntity<List<ArticleVO>> deleteArticle(@PathVariable("anum") int anum) {
         ArticleDAO dao = new ArticleDAO();
