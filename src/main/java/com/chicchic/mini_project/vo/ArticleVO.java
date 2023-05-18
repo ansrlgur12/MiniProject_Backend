@@ -34,5 +34,9 @@ public class ArticleVO {
     // 회원
 
     private String userImg;
+    private int userGrade;
+
+    // 몇 초전
+    private String date2;
 
 }

@@ -33,7 +33,7 @@ public class MyPageController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    @GetMapping("/MyPage/{id}/{view}")
+    @GetMapping("/myHistoryList/{id}/{view}")
     public ResponseEntity<List<ArticleVO>> myHistoryList(@PathVariable("id") String id, @PathVariable("view") int view){
         System.out.println(id);
         MyPageDAO dao = new MyPageDAO();
