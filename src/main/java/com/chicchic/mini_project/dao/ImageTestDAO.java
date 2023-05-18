@@ -30,8 +30,8 @@ public class ImageTestDAO {
 
 
         String[] conditions = {
-                "s.seasons = 1 OR s.seasons = 2 OR s.seasons = 3 OR s.seasons = 4",
-                "(c.category_number= 1 or  c.category_number= 2 or c.category_number= 3 or c.category_number= 4 or c.category_number= 5) OR (c.category_number= 6 or  c.category_number= 7 or c.category_number= 8 or c.category_number= 9 or c.category_number= 10)",
+                "s.seasons =1 OR s.seasons =2 OR s.seasons LIKE =3 OR s.seasons LIKE =4",
+                "(c.category_number LIKE =1 or  c.category_number LIKE =2 or c.category_number LIKE =3 or c.category_number =4 or c.category_number=5) OR (c.category_number= 6 or  c.category_number= 7 or c.category_number= 8 or c.category_number= 9 or c.category_number= 10)",
                 "p.brand IN (80,1871,1328,1506,1517,1525,1543,1623,1631,1708,921,1718,1724,1816,1934,1977,2104,2208,2415,2706,1054,315, 749, 614,647, 1745, 855, 555, 653,534, 524,528, 3032,3130,3140,3227) OR p.brand NOT IN (80,1871,1328,1506,1517,1525,1543,1623,1631,1708,921,1718,1724,1816,1934,1977,2104,2208,2415,2706,1054,315, 749, 614,647, 1745, 855, 555, 653,534, 524,528, 3032,3130,3140,3227)",
                 "b.note_number IS NOT NULL OR b.note_number IS NULL",
                 "p.gender = 1 OR p.gender = 0 OR p.gender  IS NOT NULL",
