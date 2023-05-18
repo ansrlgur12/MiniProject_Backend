@@ -6,7 +6,6 @@ public class PerfumeSearchVO {
     private Double maxPrice;
     private Integer gender;
 
-    // getter, setter 및 기타 메소드를 여기에 추가하세요
 
 
     public Integer getBrand() {
