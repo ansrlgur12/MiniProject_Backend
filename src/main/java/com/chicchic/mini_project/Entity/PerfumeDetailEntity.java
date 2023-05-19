@@ -1,5 +1,7 @@
 package com.chicchic.mini_project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,15 +35,19 @@ public class PerfumeDetailEntity {
     @JoinColumn(name = "BRAND")
     private Brand brand;
     @OneToMany(mappedBy = "perfume")
+    @JsonManagedReference
     private List<TopNote> topNote;
 
     @OneToMany(mappedBy = "perfume")
+    @JsonManagedReference
     private List<MiddleNote> middleNote;
 
     @OneToMany(mappedBy = "perfume")
+    @JsonManagedReference
     private List<BaseNote> baseNote;
 
     @OneToMany(mappedBy = "perfume")
+    @JsonManagedReference
     private  List<PerfumeSesaons> seasons;
     // Getter and Setter methods
 

@@ -1,6 +1,7 @@
 package com.chicchic.mini_project.Entity;
 
 import com.chicchic.mini_project.dao.PerfumeDetail;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class PerfumeSesaons {
 
     @ManyToOne
     @JoinColumn(name = "perfumeNumber")
+    @JsonBackReference
     private PerfumeDetail perfume;
 
     @ManyToOne
