@@ -11,6 +11,7 @@ public class PerfumeReviewVO {
         this.userId = userId;
         this.starRating = starRating;
         this.review = review;
+
     }
 
 
