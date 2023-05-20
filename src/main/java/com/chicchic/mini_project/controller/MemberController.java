@@ -94,6 +94,14 @@ public class MemberController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
+    @PostMapping("/updatePw") // 비밀번호 수정
+    public ResponseEntity<Boolean> updatePw(@RequestBody Map<String, String> regData) {
+        String getId = regData.get("id");
+        String getPwd = regData.get("pwd");
+        MemberDAO dao = new MemberDAO();
+        boolean isTrue = dao.updatePw(getId,getPwd);
+        return new ResponseEntity<>(isTrue, HttpStatus.OK);
+    }
 
 
 }
