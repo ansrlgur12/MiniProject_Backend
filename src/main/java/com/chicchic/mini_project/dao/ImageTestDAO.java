@@ -22,6 +22,8 @@ public class ImageTestDAO {
     private PreparedStatement pStmt = null;
     private final String TABLE_NAME = "perfumes p\n" +
             "JOIN perfume_seasons s ON p.perfume_number = s.perfume_number\n" +
+            "JOIN top_notes t ON p.perfume_number = t.perfume_number\n" +
+            "JOIN middle_notes m ON p.perfume_number = m.perfume_number\n" +
             "JOIN base_notes b ON p.perfume_number = b.perfume_number\n" +
             "JOIN perfume_category c ON p.perfume_number = c.perfume_number\n";
 
@@ -35,7 +37,7 @@ public class ImageTestDAO {
                 "p.brand IN (80,1871,1328,1506,1517,1525,1543,1623,1631,1708,921,1718,1724,1816,1934,1977,2104,2208,2415,2706,1054,315, 749, 614,647, 1745, 855, 555, 653,534, 524,528, 3032,3130,3140,3227) OR p.brand NOT IN (80,1871,1328,1506,1517,1525,1543,1623,1631,1708,921,1718,1724,1816,1934,1977,2104,2208,2415,2706,1054,315, 749, 614,647, 1745, 855, 555, 653,534, 524,528, 3032,3130,3140,3227)",
                 "b.note_number IS NOT NULL OR b.note_number IS NULL",
                 "p.gender = 1 OR p.gender = 0 OR p.gender  IS NOT NULL",
-                "c.category_number= 10 OR (c.category_number = 1 OR c.category_number = 2) OR (c.category_number = 6 OR c.category_number = 7) OR (c.category_number = 3 OR c.category_number = 4)"
+                "(c.category_number= 10 OR t.note_number= 624 or m.note_number=624 or b.note_number= 624) OR (c.category_number = 1 OR c.category_number = 2 OR t.note_number= 227 or m.note_number=227 or b.note_number= 227) OR (c.category_number = 6 OR c.category_number = 7 OR t.note_number= 959 or m.note_number= 959 or b.note_number= 959) OR (c.category_number = 3 OR c.category_number = 4 OR t.note_number= 353 or m.note_number=353 or b.note_number= 353)"
         };
 
         for (int i = 0; i < selected.length; i++) {
@@ -89,13 +91,13 @@ public class ImageTestDAO {
                     break;
                 case 5: // categories
                     if (selected[i] == 1) {
-                        whereClause.add("c.category_number= 10");
+                        whereClause.add("(c.category_number= 10 OR t.note_number= 624 or m.note_number=624 or b.note_number= 624)");
                     } else if (selected[i] == 2) {
-                        whereClause.add("(c.category_number = 1 OR c.category_number = 2)");
+                        whereClause.add("(c.category_number = 1 OR c.category_number = 2 OR t.note_number= 227 or m.note_number=227 or b.note_number= 227)");
                     } else if (selected[i] == 3) {
-                        whereClause.add("(c.category_number = 6 OR c.category_number = 7)");
+                        whereClause.add("(c.category_number = 6 OR c.category_number = 7 OR t.note_number= 959 or m.note_number= 959 or b.note_number= 959)");
                     } else if (selected[i] == 4) {
-                        whereClause.add("(c.category_number = 3 OR c.category_number = 4)");
+                        whereClause.add("(c.category_number = 3 OR c.category_number = 4 OR t.note_number= 353 or m.note_number=353 or b.note_number= 353)");
                     }
                     break;
             }
