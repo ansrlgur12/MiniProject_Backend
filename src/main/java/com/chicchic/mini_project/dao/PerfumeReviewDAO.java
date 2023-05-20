@@ -68,7 +68,7 @@ public class PerfumeReviewDAO {
                 int starRating = rs.getInt("별점");
                 String review = rs.getString("한줄평");
 
-                // 출력하기 전
+                // 출력 전
                 System.out.println("Before inserting into VO - PerfumeNum: " + perfumeNumber + ", UserId: " + userId + ", StarRating: " + starRating + ", Review: " + review);
 
                 PerfumeReviewVO vo = new PerfumeReviewVO(perfumeNumber, userId, starRating, review);
