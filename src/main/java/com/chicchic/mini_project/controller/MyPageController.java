@@ -33,11 +33,38 @@ public class MyPageController {
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
 
-    @GetMapping("/myHistoryList/{id}/{view}")
+    @GetMapping("/MyPage/{id}/{view}")
     public ResponseEntity<List<ArticleVO>> myHistoryList(@PathVariable("id") String id, @PathVariable("view") int view){
         System.out.println(id);
         MyPageDAO dao = new MyPageDAO();
         List<ArticleVO> list = dao.myHistory(id, view);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+/*
+    @GetMapping("/MyPage/{id}/mycomment")
+    public ResponseEntity<List<ArticleVO>> myCommentList(@PathVariable("id") String id){
+        System.out.println(id);
+        MyPageDAO dao = new MyPageDAO();
+        List<ArticleVO> list = dao.myComment(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/MyPage/{id}/mylike")
+    public ResponseEntity<List<ArticleVO>> myLikeList(@PathVariable("id") String id){
+        System.out.println(id);
+        MyPageDAO dao = new MyPageDAO();
+        List<ArticleVO> list = dao.myLike(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/MyPage/{id}/myoneline")
+    public ResponseEntity<List<ArticleVO>> myOneLineList(@PathVariable("id") String id){
+        System.out.println(id);
+        MyPageDAO dao = new MyPageDAO();
+        List<ArticleVO> list = dao.myOneLine(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+ */
+
 }

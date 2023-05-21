@@ -24,6 +24,7 @@ public class ArticleVO {
     private int commentNum;
     private String commentText;
     private String commentPwd;
+    private Date commentDate;
 
     //조회수
     private int view;
@@ -38,5 +39,6 @@ public class ArticleVO {
 
     // 몇 초전
     private String date2;
+
 
 }
