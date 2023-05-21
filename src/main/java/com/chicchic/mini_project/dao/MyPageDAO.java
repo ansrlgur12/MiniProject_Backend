@@ -28,7 +28,7 @@ public class MyPageDAO {
 
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                String userImg  = rs.getString("이미지");
+                String userImg = rs.getString("이미지");
                 int userGrade = rs.getInt("회원등급");
                 ArticleVO vo = new ArticleVO();
                 vo.setUserImg(userImg);
@@ -78,7 +78,7 @@ public class MyPageDAO {
             stmt = conn.createStatement();
 
             // 내 리뷰
-            if(views == 1) {
+            if (views == 1) {
                 sql = "SELECT a.*, b.* FROM 게시글 a INNER JOIN 게시판 b ON a.게시판번호 = b.게시판번호 " +
                         "WHERE 회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 " +
@@ -87,7 +87,7 @@ public class MyPageDAO {
             }
 
             // 내 댓글
-            else if(views == 2) {
+            else if (views == 2) {
                 sql = "SELECT b.*, a.*, c.* " +
                         "FROM 게시글 a " +
                         "INNER JOIN 댓글 b ON a.게시글번호 = b.게시글번호 " +
@@ -97,7 +97,7 @@ public class MyPageDAO {
             }
 
             // 내 좋아요
-            else if(views == 3) {
+            else if (views == 3) {
                 sql = "SELECT a.*, c.* " +
                         "FROM 게시글 a INNER JOIN 좋아요 b " +
                         "ON a.게시글번호 = b.게시글번호 " +
@@ -109,7 +109,7 @@ public class MyPageDAO {
             }
 
             // 내 한줄평
-            else if(views == 4) {
+            else if (views == 4) {
                 sql = "SELECT a.*, b.* " +
                         " from 한줄평 a inner join perfumes b " +
                         " on a.향수번호 = b.PERFUME_NUMBER " +
@@ -118,11 +118,10 @@ public class MyPageDAO {
             }
 
 
-
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                if(views == 1) {
+                if (views == 1) {
                     int anum = rs.getInt("게시글번호");
                     int bnum = rs.getInt("게시판번호");
                     int unum = rs.getInt("회원번호");
@@ -145,8 +144,7 @@ public class MyPageDAO {
                     vo.setView(viewCnt);
                     vo.setLike(pLiked);
                     list.add(vo);
-                }
-                else if(views == 2) {
+                } else if (views == 2) {
                     int anum = rs.getInt("게시글번호");
                     int bnum = rs.getInt("게시판번호");
                     int unum = rs.getInt("회원번호");
@@ -190,8 +188,7 @@ public class MyPageDAO {
                     vo.setDate(date);
                     vo.setLike(pLiked);
                     list.add(vo);
-                }
-                else {
+                } else {
 
                     String perfumeName = rs.getString("NAME");
                     String oneLineText = rs.getString("한줄평");
@@ -213,5 +210,4 @@ public class MyPageDAO {
         }
         return list;
     }
-
-
+}
