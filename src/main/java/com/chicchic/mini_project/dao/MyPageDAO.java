@@ -97,13 +97,14 @@ public class MyPageDAO {
 
             // 내 좋아요
             else if(views == 3) {
-                sql = "SELECT a.게시판번호, a.제목, a.좋아요수, a.작성일 " +
+                sql = "SELECT a.* " +
                         "FROM 게시글 a INNER JOIN 좋아요 b " +
                         "ON a.게시글번호 = b.게시글번호 " +
                         "WHERE a.회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 WHERE 아이디 = '" + id + "') " +
                         "ORDER BY a.게시글번호 DESC";
             }
+
             // 내 한줄평
             else if(views == 4) {
                 sql = "SELECT * FROM 한줄평 " +
@@ -123,9 +124,14 @@ public class MyPageDAO {
                 Date date = rs.getDate("작성일");
                 int viewCnt = rs.getInt("조회수");
                 int pLiked = rs.getInt("좋아요수");
+
 //                String cmtText = rs.getString("댓글내용");
 //                Date cmtDate = rs.getDate("댓글작성일");
 //                int cmtNum = rs.getInt("댓글번호");
+                // 댓글과 같이 한줄평 관련
+//                int pnum = rs.getInt("향수번호");
+//                String rating = rs.getString("별점");
+//                String oneReview = rs.getString("한줄평");
 
                 ArticleVO vo = new ArticleVO();
 
@@ -140,6 +146,9 @@ public class MyPageDAO {
 //                vo.setCommentText(cmtText);
 //                vo.setCommentDate(cmtDate);
 //                vo.setCommentNum(cmtNum);
+//                vo.setPerfumeNumber(pnum);
+//                vo.setStarRating(rating);
+//                vo.setReview(oneReview);
                 list.add(vo);
             }
             Common.close(rs);
