@@ -54,7 +54,7 @@ public class PerfumeReviewDAO {
     public List<PerfumeReviewVO> viewReview(int perfumeNumber) {
         List<PerfumeReviewVO> list = new ArrayList<>();
 
-        String sql = "SELECT 한줄평.*, 회원.아이디 FROM 한줄평 JOIN 회원 ON 한줄평.회원번호 = 회원.회원번호 WHERE 한줄평.향수번호= ?";
+        String sql = "SELECT 한줄평.*, 회원.아이디, 회원.이미지 FROM 한줄평 JOIN 회원 ON 한줄평.회원번호 = 회원.회원번호 WHERE 한줄평.향수번호= ?";
 
         try {
             conn = Common.getConnection();
@@ -67,11 +67,12 @@ public class PerfumeReviewDAO {
                 String userId = rs.getString("아이디");
                 int starRating = rs.getInt("별점");
                 String review = rs.getString("한줄평");
+                String image = rs.getString("이미지");
 
                 // 출력 전
-                System.out.println("Before inserting into VO - PerfumeNum: " + perfumeNumber + ", UserId: " + userId + ", StarRating: " + starRating + ", Review: " + review);
+                System.out.println("Before inserting into VO - PerfumeNum: " + perfumeNumber + ", UserId: " + userId + ", StarRating: " + starRating + ", Review: " + review + ",image" + image);
 
-                PerfumeReviewVO vo = new PerfumeReviewVO(perfumeNumber, userId, starRating, review);
+                PerfumeReviewVO vo = new PerfumeReviewVO(perfumeNumber, userId, starRating, review, image);
                 list.add(vo);
 
                 // 출력한 후

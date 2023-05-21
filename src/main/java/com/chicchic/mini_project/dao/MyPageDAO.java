@@ -98,7 +98,11 @@ public class MyPageDAO {
 
             // 내 좋아요
             else if(views == 3) {
+<<<<<<< HEAD
                 sql = "SELECT a.*, c.* " +
+=======
+                sql = "SELECT a.* " +
+>>>>>>> 785d10e7612bf7ebe70396ad7a08f6c2659a0d4a
                         "FROM 게시글 a INNER JOIN 좋아요 b " +
                         "ON a.게시글번호 = b.게시글번호 " +
                         "INNER JOIN 게시판 c " +
@@ -107,6 +111,7 @@ public class MyPageDAO {
                         "(SELECT 회원번호 FROM 회원 WHERE 아이디 = '" + id + "') " +
                         "ORDER BY a.게시글번호 DESC";
             }
+
             // 내 한줄평
             else if(views == 4) {
                 sql = "SELECT a.*, b.* " +
@@ -117,9 +122,30 @@ public class MyPageDAO {
             }
 
 
+<<<<<<< HEAD
+=======
+            while (rs.next()) {
+                int anum = rs.getInt("게시글번호");
+                int bnum = rs.getInt("게시판번호");
+                int unum = rs.getInt("회원번호");
+                String title = rs.getString("제목");
+                String text = rs.getString("내용");
+                Date date = rs.getDate("작성일");
+                int viewCnt = rs.getInt("조회수");
+                int pLiked = rs.getInt("좋아요수");
+
+//                String cmtText = rs.getString("댓글내용");
+//                Date cmtDate = rs.getDate("댓글작성일");
+//                int cmtNum = rs.getInt("댓글번호");
+                // 댓글과 같이 한줄평 관련
+//                int pnum = rs.getInt("향수번호");
+//                String rating = rs.getString("별점");
+//                String oneReview = rs.getString("한줄평");
+>>>>>>> 785d10e7612bf7ebe70396ad7a08f6c2659a0d4a
 
             rs = stmt.executeQuery(sql);
 
+<<<<<<< HEAD
             while (rs.next()) {
                 if(views == 1) {
                     int anum = rs.getInt("게시글번호");
@@ -202,6 +228,23 @@ public class MyPageDAO {
                     vo.setStar(star);
                     list.add(vo);
                 }
+=======
+                vo.setAnum(anum);
+                vo.setBnum(bnum);
+                vo.setUnum(unum);
+                vo.setTitle(title);
+                vo.setText(text);
+                vo.setDate(date);
+                vo.setView(viewCnt);
+                vo.setLike(pLiked);
+//                vo.setCommentText(cmtText);
+//                vo.setCommentDate(cmtDate);
+//                vo.setCommentNum(cmtNum);
+//                vo.setPerfumeNumber(pnum);
+//                vo.setStarRating(rating);
+//                vo.setReview(oneReview);
+                list.add(vo);
+>>>>>>> 785d10e7612bf7ebe70396ad7a08f6c2659a0d4a
             }
             Common.close(rs);
             Common.close(stmt);

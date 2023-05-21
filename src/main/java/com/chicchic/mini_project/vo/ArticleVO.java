@@ -40,7 +40,15 @@ public class ArticleVO {
     // 몇 초전
     private String date2;
 
+<<<<<<< HEAD
     // 향수부분
+=======
+    // 향수 한줄평
+    private int perfumeNumber;
+    private String starRating;
+    private String review;
+
+>>>>>>> 785d10e7612bf7ebe70396ad7a08f6c2659a0d4a
 
     private String perfumeName;
     private String oneLineText;
