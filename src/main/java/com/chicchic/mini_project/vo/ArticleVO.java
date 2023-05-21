@@ -40,5 +40,12 @@ public class ArticleVO {
     // 몇 초전
     private String date2;
 
+    // 향수부분
 
+    private String perfumeName;
+    private String oneLineText;
+    private int star;
+
+    // 게시판
+    private String Bname;
 }

@@ -79,7 +79,7 @@ public class MyPageDAO {
 
             // 내 리뷰
             if(views == 1) {
-                sql = "SELECT * FROM 게시글 " +
+                sql = "SELECT a.*, b.* FROM 게시글 a INNER JOIN 게시판 b ON a.게시판번호 = b.게시판번호 " +
                         "WHERE 회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 " +
                         "WHERE 아이디 = '" + id + "')" +
@@ -88,59 +88,120 @@ public class MyPageDAO {
 
             // 내 댓글
             else if(views == 2) {
-                sql = "SELECT b.*, a.* " +
-                        "FROM 게시글 a INNER JOIN 댓글 b " +
-                        "ON a.게시글번호 = b.게시글번호 " +
+                sql = "SELECT b.*, a.*, c.* " +
+                        "FROM 게시글 a " +
+                        "INNER JOIN 댓글 b ON a.게시글번호 = b.게시글번호 " +
+                        "INNER JOIN 게시판 c ON a.게시판번호 = c.게시판번호 " +
                         "WHERE a.회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 WHERE 아이디 = '" + id + "')";
             }
 
             // 내 좋아요
             else if(views == 3) {
-                sql = "SELECT a.게시판번호, a.제목, a.좋아요수, a.작성일 " +
+                sql = "SELECT a.*, c.* " +
                         "FROM 게시글 a INNER JOIN 좋아요 b " +
                         "ON a.게시글번호 = b.게시글번호 " +
-                        "WHERE a.회원번호 = " +
+                        "INNER JOIN 게시판 c " +
+                        "ON a.게시판번호 = c.게시판번호 " +
+                        "WHERE b.회원번호 = " +
                         "(SELECT 회원번호 FROM 회원 WHERE 아이디 = '" + id + "') " +
                         "ORDER BY a.게시글번호 DESC";
             }
             // 내 한줄평
             else if(views == 4) {
-                sql = "SELECT * FROM 한줄평 " +
-                        "WHERE 회원번호 = " +
-                        "(SELECT 회원번호 FROM 회원 " +
-                        "WHERE 아이디 = '" + id + "')";
+                sql = "SELECT a.*, b.* " +
+                        " from 한줄평 a inner join perfumes b " +
+                        " on a.향수번호 = b.PERFUME_NUMBER " +
+                        " WHERE 회원번호 = " +
+                        " (SELECT 회원번호 FROM 회원 WHERE 아이디 = '" + id + "') ";
             }
+
+
 
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                int anum = rs.getInt("게시글번호");
-                int bnum = rs.getInt("게시판번호");
-                int unum = rs.getInt("회원번호");
-                String title = rs.getString("제목");
-                String text = rs.getString("내용");
-                Date date = rs.getDate("작성일");
-                int viewCnt = rs.getInt("조회수");
-                int pLiked = rs.getInt("좋아요수");
-//                String cmtText = rs.getString("댓글내용");
-//                Date cmtDate = rs.getDate("댓글작성일");
-//                int cmtNum = rs.getInt("댓글번호");
+                if(views == 1) {
+                    int anum = rs.getInt("게시글번호");
+                    int bnum = rs.getInt("게시판번호");
+                    int unum = rs.getInt("회원번호");
+                    String title = rs.getString("제목");
+                    String text = rs.getString("내용");
+                    Date date = rs.getDate("작성일");
+                    int viewCnt = rs.getInt("조회수");
+                    int pLiked = rs.getInt("좋아요수");
+                    String bname = rs.getString("게시판이름");
 
-                ArticleVO vo = new ArticleVO();
+                    ArticleVO vo = new ArticleVO();
 
-                vo.setAnum(anum);
-                vo.setBnum(bnum);
-                vo.setUnum(unum);
-                vo.setTitle(title);
-                vo.setText(text);
-                vo.setDate(date);
-                vo.setView(viewCnt);
-                vo.setLike(pLiked);
-//                vo.setCommentText(cmtText);
-//                vo.setCommentDate(cmtDate);
-//                vo.setCommentNum(cmtNum);
-                list.add(vo);
+                    vo.setBname(bname);
+                    vo.setAnum(anum);
+                    vo.setBnum(bnum);
+                    vo.setUnum(unum);
+                    vo.setTitle(title);
+                    vo.setText(text);
+                    vo.setDate(date);
+                    vo.setView(viewCnt);
+                    vo.setLike(pLiked);
+                    list.add(vo);
+                }
+                else if(views == 2) {
+                    int anum = rs.getInt("게시글번호");
+                    int bnum = rs.getInt("게시판번호");
+                    int unum = rs.getInt("회원번호");
+                    String title = rs.getString("제목");
+                    String text = rs.getString("내용");
+                    Date date = rs.getDate("작성일");
+                    int viewCnt = rs.getInt("조회수");
+                    int pLiked = rs.getInt("좋아요수");
+                    String cmtText = rs.getString("내용");
+                    Date cmtDate = rs.getDate("작성일");
+                    int cmtNum = rs.getInt("댓글번호");
+                    String bname = rs.getString("게시판이름");
+
+                    ArticleVO vo = new ArticleVO();
+
+                    vo.setBname(bname);
+                    vo.setAnum(anum);
+                    vo.setBnum(bnum);
+                    vo.setUnum(unum);
+                    vo.setTitle(title);
+                    vo.setText(text);
+                    vo.setDate(date);
+                    vo.setView(viewCnt);
+                    vo.setLike(pLiked);
+                    vo.setCommentText(cmtText);
+                    vo.setCommentDate(cmtDate);
+                    vo.setCommentNum(cmtNum);
+                    list.add(vo);
+                } else if (views == 3) {
+
+                    String title = rs.getString("제목");
+                    Date date = rs.getDate("작성일");
+                    int bnum = rs.getInt("게시판번호");
+                    int pLiked = rs.getInt("좋아요수");
+                    String bname = rs.getString("게시판이름");
+
+                    ArticleVO vo = new ArticleVO();
+                    vo.setBname(bname);
+                    vo.setBnum(bnum);
+                    vo.setTitle(title);
+                    vo.setDate(date);
+                    vo.setLike(pLiked);
+                    list.add(vo);
+                }
+                else {
+
+                    String perfumeName = rs.getString("NAME");
+                    String oneLineText = rs.getString("한줄평");
+                    int star = rs.getInt("별점");
+
+                    ArticleVO vo = new ArticleVO();
+                    vo.setPerfumeName(perfumeName);
+                    vo.setOneLineText(oneLineText);
+                    vo.setStar(star);
+                    list.add(vo);
+                }
             }
             Common.close(rs);
             Common.close(stmt);
