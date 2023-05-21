@@ -46,6 +46,28 @@ public class MemberDAO {
         return false;
     }
 
+    public String getUserImage(String id) {
+        String sql = "SELECT 이미지 FROM 회원 WHERE 아이디 = ? ";
+        String userImage = null;
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, id);
+
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                userImage = rs.getString("이미지");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(rs);
+        Common.close(pStmt);
+        Common.close(conn);
+
+        return userImage;
+    }
+
     // 회원 조회
     public List<MemberVO> memberSelect() {
         List<MemberVO> list = new ArrayList<>();
@@ -189,6 +211,28 @@ public class MemberDAO {
             pStmt.setString(1, id);
             result = pStmt.executeUpdate();
             System.out.println("회원등급 갱신 : " + result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
+    public boolean updatePw(String id, String pwd) {
+        int result = 0;
+        String sql = "UPDATE 회원 SET 비밀번호 = ? WHERE 아이디 = ?";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, pwd);
+            pStmt.setString(2, id);
+
+            result = pStmt.executeUpdate();
+            System.out.println("비밀번호 수정 DB 결과 확인 : " + result);
 
         } catch (Exception e) {
             e.printStackTrace();

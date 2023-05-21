@@ -40,31 +40,4 @@ public class MyPageController {
         List<ArticleVO> list = dao.myHistory(id, view);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-/*
-    @GetMapping("/MyPage/{id}/mycomment")
-    public ResponseEntity<List<ArticleVO>> myCommentList(@PathVariable("id") String id){
-        System.out.println(id);
-        MyPageDAO dao = new MyPageDAO();
-        List<ArticleVO> list = dao.myComment(id);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("/MyPage/{id}/mylike")
-    public ResponseEntity<List<ArticleVO>> myLikeList(@PathVariable("id") String id){
-        System.out.println(id);
-        MyPageDAO dao = new MyPageDAO();
-        List<ArticleVO> list = dao.myLike(id);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("/MyPage/{id}/myoneline")
-    public ResponseEntity<List<ArticleVO>> myOneLineList(@PathVariable("id") String id){
-        System.out.println(id);
-        MyPageDAO dao = new MyPageDAO();
-        List<ArticleVO> list = dao.myOneLine(id);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
- */
-
 }

@@ -1,6 +1,8 @@
 package com.chicchic.mini_project.Entity;
 
 import com.chicchic.mini_project.dao.PerfumeDetail;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,7 @@ public class TopNote {
 
     @ManyToOne
     @JoinColumn(name = "perfumeNumber")
+    @JsonBackReference
     private PerfumeDetail perfume;
 
     @ManyToOne
