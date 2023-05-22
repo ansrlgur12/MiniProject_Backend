@@ -175,6 +175,7 @@ public class MyPageDAO {
                     list.add(vo);
                 } else if (views == 3) {
 
+                    int anum = rs.getInt("게시글번호");
                     String title = rs.getString("제목");
                     Date date = rs.getDate("작성일");
                     int bnum = rs.getInt("게시판번호");
@@ -182,6 +183,7 @@ public class MyPageDAO {
                     String bname = rs.getString("게시판이름");
 
                     ArticleVO vo = new ArticleVO();
+                    vo.setAnum(anum);
                     vo.setBname(bname);
                     vo.setBnum(bnum);
                     vo.setTitle(title);
@@ -193,8 +195,10 @@ public class MyPageDAO {
                     String perfumeName = rs.getString("NAME");
                     String oneLineText = rs.getString("한줄평");
                     int star = rs.getInt("별점");
+                    int pnum = rs.getInt("PERFUME_NUMBER");
 
                     ArticleVO vo = new ArticleVO();
+                    vo.setPnum(pnum);
                     vo.setPerfumeName(perfumeName);
                     vo.setOneLineText(oneLineText);
                     vo.setStar(star);
