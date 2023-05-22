@@ -317,11 +317,11 @@ public class ArticleDAO {
                 int commentNum = rs.getInt("댓글번호");
                 int anum = rs.getInt("게시글번호");
                 int unum = rs.getInt("회원번호");
-                String commentText = rs.getString("댓글내용");
+                String commentText = rs.getString("내용");
                 String commentPwd = rs.getString("비밀번호");
                 String id = rs.getString("아이디");
                 String userImg = rs.getString("이미지");
-                String date2 = rs.getString("댓글작성일");
+                String date2 = rs.getString("작성일");
 
                 ArticleVO vo = new ArticleVO();
                 vo.setCommentNum(commentNum);
