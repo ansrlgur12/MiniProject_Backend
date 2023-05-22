@@ -17,7 +17,7 @@ import java.util.Map;
 public class MyPageController {
 
 
-    @GetMapping("/getImage/{id}") // 댓글 수정 전 내용 가져오기
+    @GetMapping("/getImage/{id}") 
     public ResponseEntity<List<ArticleVO>> getImage(@PathVariable("id") String id) {
         MyPageDAO dao = new MyPageDAO();
         List<ArticleVO> list = dao.getImage(id);
