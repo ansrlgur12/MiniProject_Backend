@@ -99,4 +99,32 @@ public class EventDAO {
         }
         return list;
     }
+
+    // 이벤트 등록
+    public boolean newEvent(int eventNum, String eventTitle, String eventText, String eventImg, Date startEvent, Date endEvent) {
+        int result = 0;
+        String sql = "INSERT INTO 이벤트 (이벤트번호, 제목, 내용, 이미지, 시작일, 종료일) " +
+                "VALUES(?, ?, ?, ?, ?, ?)";
+        try {
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, eventNum);
+            pStmt.setString(2,eventTitle);
+            pStmt.setString(3, eventText);
+            pStmt.setString(4, eventImg);
+            pStmt.setDate(5, startEvent);
+            pStmt.setDate(6, endEvent);
+
+            result = pStmt.executeUpdate();
+            System.out.println("이벤트 등록 DB 결과 : " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+
+        if (result == 1) return true;
+        else return false;
+    }
+
 }
