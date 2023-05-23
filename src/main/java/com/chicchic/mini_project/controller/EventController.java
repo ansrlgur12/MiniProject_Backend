@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Date;
+import java.sql.Date;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -32,29 +33,35 @@ public class EventController {
     // 이벤트 등록
     @PostMapping("/newEvent")
     public ResponseEntity<Boolean> newEvent(@RequestBody Map<String, String> regData) {
-        int getEventNum = Integer.parseInt(regData.get("eventNum"));
         String getEventTitle = regData.get("eventTitle");
         String getEventText = regData.get("eventText");
         String getEventImg = regData.get("eventImg");
 
-//        String startEventStr = regData.get("startEvent");
-//        String endEventStr = regData.get("endEvent");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String startEventStr = regData.get("startEvent");
+        String endEventStr = regData.get("endEvent");
         Date getStartEvent = null;
         Date getEndEvent = null;
 
         try {
-            getStartEvent = dateFormat.parse(regData.get("startEvent"));
-            getEndEvent = dateFormat.parse(regData.get("endEvent"));
+            java.util.Date parsedStartEvent = dateFormat.parse(startEventStr);
+            getStartEvent = new Date(parsedStartEvent.getTime());
+
+            java.util.Date parsedEndEvent = dateFormat.parse(endEventStr);
+            getEndEvent = new Date(parsedEndEvent.getTime());
+
+            System.out.println(getStartEvent);
+
         } catch (ParseException e) {
             // 날짜 형식 파싱 오류 처리
             e.printStackTrace();
         }
         EventDAO dao = new EventDAO();
-        boolean isTrue = dao.newEvent(getEventNum, getEventTitle, getEventText, getEventImg, (java.sql.Date) getStartEvent, (java.sql.Date) getEndEvent);
+
+        boolean isTrue = dao.newEvent(getEventTitle, getEventText, getEventImg, getStartEvent, getEndEvent);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
-}
+
 }
 
