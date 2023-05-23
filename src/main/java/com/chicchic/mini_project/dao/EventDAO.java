@@ -101,19 +101,18 @@ public class EventDAO {
     }
 
     // 이벤트 등록
-    public boolean newEvent(int eventNum, String eventTitle, String eventText, String eventImg, Date startEvent, Date endEvent) {
+    public boolean newEvent(String eventTitle, String eventText, String eventImg, Date startEvent, Date endEvent) {
         int result = 0;
         String sql = "INSERT INTO 이벤트 (이벤트번호, 제목, 내용, 이미지, 시작일, 종료일) " +
-                "VALUES(?, ?, ?, ?, ?, ?)";
+                "VALUES(이벤트번호.NEXTVAL, ?, ?, ?, ?, ?)";
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setInt(1, eventNum);
-            pStmt.setString(2,eventTitle);
-            pStmt.setString(3, eventText);
-            pStmt.setString(4, eventImg);
-            pStmt.setDate(5, startEvent);
-            pStmt.setDate(6, endEvent);
+            pStmt.setString(1,eventTitle);
+            pStmt.setString(2, eventText);
+            pStmt.setString(3, eventImg);
+            pStmt.setDate(4, startEvent);
+            pStmt.setDate(5, endEvent);
 
             result = pStmt.executeUpdate();
             System.out.println("이벤트 등록 DB 결과 : " + result);
