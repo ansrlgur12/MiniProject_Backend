@@ -17,7 +17,7 @@ import java.util.Map;
 public class MyPageController {
 
 
-    @GetMapping("/getImage/{id}") 
+    @GetMapping("/getImage/{id}")
     public ResponseEntity<List<ArticleVO>> getImage(@PathVariable("id") String id) {
         MyPageDAO dao = new MyPageDAO();
         List<ArticleVO> list = dao.getImage(id);

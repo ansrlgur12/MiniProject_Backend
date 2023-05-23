@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-//import java.util.Date;
+import java.util.Date;
 import java.sql.Date;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,6 +37,7 @@ public class EventController {
         String getEventText = regData.get("eventText");
         String getEventImg = regData.get("eventImg");
 
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String startEventStr = regData.get("startEvent");
         String endEventStr = regData.get("endEvent");
@@ -51,13 +52,16 @@ public class EventController {
             getEndEvent = new Date(parsedEndEvent.getTime());
 
             System.out.println(getStartEvent);
+
         } catch (ParseException e) {
             // 날짜 형식 파싱 오류 처리
             e.printStackTrace();
         }
         EventDAO dao = new EventDAO();
+
         boolean isTrue = dao.newEvent(getEventTitle, getEventText, getEventImg, getStartEvent, getEndEvent);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
+
 }
 
